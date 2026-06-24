@@ -41,7 +41,11 @@ export default function Header() {
           <a href={CONTACT.phoneTel} className="btn btn-primary">
             <Phone size={16} /> Book a Visit
           </a>
-          <button className="btn nav-toggle" onClick={() => setNavOpen((o) => !o)} aria-label="Menu" style={{ background: 'var(--navy)', color: 'white', width: '42px', height: '42px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 0 }}>
+          <button
+            className="btn nav-toggle"
+            onClick={() => setNavOpen((o) => !o)}
+            aria-label="Menu"
+          >
             {navOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
