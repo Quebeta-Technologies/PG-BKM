@@ -25,7 +25,7 @@ export default function Header() {
         </a>
 
         <nav className={`nav ${navOpen ? 'open' : ''}`}>
-          <a href="#about" onClick={close}>Aboucvbcvbcvbcbcvbcvbcvbcvbct</a>
+          <a href="#about" onClick={close}>About</a>
           <a href="#gallery" onClick={close}>Gallery</a>
           <a href="#amenities" onClick={close}>Amenities</a>
           <a href="#rooms" onClick={close}>Rooms</a>
