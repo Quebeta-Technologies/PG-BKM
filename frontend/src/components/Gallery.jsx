@@ -21,7 +21,7 @@ export default function Gallery() {
   useEffect(() => {
     let frame;
     let last = null;
-    const speed = 0.4; // px per ms — increase to go faster
+    const speed = 2.4; // px per ms — increase to go faster
 
     const animate = (ts) => {
       if (last !== null) {
