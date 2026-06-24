@@ -5,7 +5,7 @@ export default function FloatingActions() {
   return (
     <>
       {/* Floating WhatsApp button (always visible) */}
-      
+      <a
         href={CONTACT.whatsapp}
         target="_blank"
         rel="noopener noreferrer"
