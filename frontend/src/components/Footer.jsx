@@ -56,10 +56,6 @@ export default function Footer() {
               </a>
             </div>
             <div className="footer-contact">
-              <Mail size={14} />
-              <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>
-            </div>
-            <div className="footer-contact">
               <MapPin size={14} />
               <span>Baner, Pune, MH</span>
             </div>
@@ -72,7 +68,7 @@ export default function Footer() {
 
         <div className="footer-bottom">
           <span>© {new Date().getFullYear()} Sri Krishna PG. All rights reserved.</span>
-          <span>Boys & Girls PG in Baner, Pune · 4 Locations</span>
+          <span>Made With &#10084; Quebeta</span>
         </div>
       </div>
     </footer>
