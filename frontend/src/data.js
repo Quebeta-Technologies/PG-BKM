@@ -29,38 +29,17 @@ export const CONTACT = {
   visitHours: '9 AM – 9 PM',
 };
 
-// ───── HERO CAROUSEL (top of page) ─────
-// Replace `src` with your own room photos (put in public/images/ and use '/images/your-photo.jpg')
+// ───── HERO CAROUSEL ─────
 export const HERO_SLIDES = [
-  {
-    src: 'https://images.unsplash.com/photo-1631679706909-1844bbd07221?auto=format&fit=crop&w=1600&q=80',
-    title: 'Slide 1',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1600&q=80',
-    title: 'Slide 2',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=1600&q=80',
-    title: 'Slide 3',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=1600&q=80',
-    title: 'Slide 4',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1600&q=80',
-    title: 'Slide 5',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1540518614846-7eded433c457?auto=format&fit=crop&w=1600&q=80',
-    title: 'Slide 6',
-  },
+  { src: 'https://images.unsplash.com/photo-1631679706909-1844bbd07221?auto=format&fit=crop&w=1600&q=80', title: 'Slide 1' },
+  { src: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1600&q=80', title: 'Slide 2' },
+  { src: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=1600&q=80', title: 'Slide 3' },
+  { src: 'https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=1600&q=80', title: 'Slide 4' },
+  { src: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1600&q=80', title: 'Slide 5' },
+  { src: 'https://images.unsplash.com/photo-1540518614846-7eded433c457?auto=format&fit=crop&w=1600&q=80', title: 'Slide 6' },
 ];
 
-// ───── PHOTO GALLERY (NEW) ─────
-// Add as many photos as you like, just keep the same structure.
-// Categories: 'rooms' | 'common' | 'dining' | 'exterior'
+// ───── PHOTO GALLERY ─────
 export const GALLERY = [
   { src: 'https://images.unsplash.com/photo-1540518614846-7eded433c457?auto=format&fit=crop&w=900&q=80', category: 'rooms', caption: 'Single sharing room — Branch 1' },
   { src: 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=900&q=80', category: 'rooms', caption: 'Double sharing — spacious & furnished' },
@@ -85,9 +64,8 @@ export const GALLERY_CATEGORIES = [
 ];
 
 // ───── AMENITIES ─────
-// (Icon names match lucide-react — change in components if you want different icons)
 export const AMENITIES = [
-  { icon: 'Utensils', title: 'Home-cooked meals', desc: '3 vegetarian meals daily, prepared fresh in-house' },
+  { icon: 'Utensils', title: 'Home-cooked meals', desc: 'Breakfast & Dinner daily, Lunch on weekends — prepared fresh in-house' },
   { icon: 'Wifi', title: 'High-speed Wi-Fi', desc: 'Unlimited fibre internet across all floors' },
   { icon: 'ShieldCheck', title: '24×7 security', desc: 'CCTV surveillance, biometric entry, caretakers on-site' },
   { icon: 'Snowflake', title: 'AC & Non-AC rooms', desc: 'Choose what fits your comfort and budget' },
@@ -97,12 +75,12 @@ export const AMENITIES = [
   { icon: 'Coffee', title: 'Common lounges', desc: 'TV, refrigerator and chill-out spaces on every floor' },
 ];
 
-// ───── FOOD / MEALS (NEW) ─────
+// ───── FOOD / MEALS ─────
 export const FOOD = {
   meals: [
-    { name: 'Breakfast', time: '7:30 – 9:30 AM', items: 'Poha, upma, paratha, idli, dosa, sandwich — rotating daily', icon: 'Sunrise' },
-    { name: 'Lunch', time: '12:30 – 2:30 PM', items: 'Dal, sabzi, chapati, rice, salad, pickle & buttermilk', icon: 'Sun' },
-    { name: 'Dinner', time: '8:00 – 10:00 PM', items: 'Dal, sabzi, chapati, rice — sweet treats on weekends', icon: 'Moon' },
+    { name: 'Breakfast', time: '7:30 – 9:30 AM (Mon–Sun)', items: 'Poha, upma, paratha, idli, dosa, sandwich — rotating daily', icon: 'Sunrise' },
+    { name: 'Dinner', time: '8:00 – 10:00 PM (Mon–Sun)', items: 'Dal, sabzi, chapati, rice — sweet treats on weekends', icon: 'Moon' },
+    { name: 'Lunch', time: '12:30 – 2:30 PM (Sat & Sun only)', items: 'Dal, sabzi, chapati, rice, salad, pickle & buttermilk', icon: 'Sun' },
   ],
   highlights: [
     'Pure vegetarian, hygienic kitchen',
@@ -132,13 +110,13 @@ export const ROOMS = [
   },
 ];
 
-// ───── PRICING (NEW) ─────
+// ───── PRICING ─────
 export const PRICING = {
   intro:
     'Transparent, all-inclusive monthly rent. For current rates at each branch, please call or WhatsApp us — we will share the latest pricing instantly.',
   included: [
     'Furnished room (bed, mattress, wardrobe, study desk)',
-    '3 home-cooked vegetarian meals daily',
+    'Breakfast & Dinner daily + Lunch on weekends',
     'Unlimited high-speed Wi-Fi',
     'Electricity (fair use, up to 100 units)',
     'Hot water & RO drinking water',
@@ -154,7 +132,7 @@ export const PRICING = {
   ],
 };
 
-// ───── HOW IT WORKS (NEW) ─────
+// ───── HOW IT WORKS ─────
 export const STEPS = [
   { num: '01', title: 'Book a Visit', desc: 'Call or WhatsApp us to schedule a tour at your preferred branch — usually same day or next day.' },
   { num: '02', title: 'Take the Tour', desc: 'Walk through the rooms, meet our caretakers, see the kitchen, and ask any question you like.' },
@@ -170,7 +148,7 @@ export const LOCATIONS = [
   { name: 'Sri Krishna PG — Branch 4', area: 'Baner, Pune', tag: 'Boys & Girls', url: "https://www.google.com/maps/place/18%C2%B033'18.6%22N+73%C2%B046'01.8%22E/@18.5550032,73.7666972,18.35z" },
 ];
 
-// ───── NEARBY LANDMARKS (NEW) ─────
+// ───── NEARBY LANDMARKS ─────
 export const LANDMARKS = [
   { name: 'Hinjewadi IT Park (Phase 1)', dist: '5 km', type: 'Work', icon: 'Briefcase' },
   { name: 'Balewadi High Street', dist: '2 km', type: 'Lifestyle', icon: 'ShoppingBag' },
@@ -214,7 +192,7 @@ export const TESTIMONIALS = [
 export const FAQS = [
   {
     q: 'What is included in the monthly rent?',
-    a: 'Your rent covers the room, 3 home-cooked vegetarian meals daily, Wi-Fi, electricity (up to a fair limit), hot water, RO drinking water, daily housekeeping, and 24×7 security. There are no hidden charges.',
+    a: 'Your rent covers the room, Breakfast & Dinner daily (Mon–Sun), Lunch on weekends, Wi-Fi, electricity (up to a fair limit), hot water, RO drinking water, daily housekeeping, and 24×7 security. There are no hidden charges.',
   },
   {
     q: 'Do you accommodate both boys and girls?',
@@ -238,7 +216,7 @@ export const FAQS = [
   },
   {
     q: 'Is the food really included? What if I don\'t like the menu?',
-    a: 'Yes, all 3 meals are included — no extra cost. The menu rotates weekly and we take feedback seriously. If you have dietary preferences, just tell our caretaker.',
+    a: 'Breakfast and Dinner are included daily (Mon–Sun). Lunch is available on Saturdays and Sundays only. The menu rotates weekly and we take feedback seriously. If you have dietary preferences, just tell our caretaker.',
   },
   {
     q: 'Do I need to bring my own bedding?',

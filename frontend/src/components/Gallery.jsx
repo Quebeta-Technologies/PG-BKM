@@ -24,7 +24,7 @@ export default function Gallery() {
         setStart((s) => (s + 1) % PHOTOS.length);
         setSliding(false);
       }, 600);
-    }, 3000);
+    }, 2500);
     return () => clearInterval(t);
   }, []);
 
