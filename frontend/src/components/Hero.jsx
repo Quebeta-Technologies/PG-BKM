@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Phone, MessageCircle, ChevronLeft, ChevronRight } from 'lucide-react';
-import { HERO_SLIDES, CONTACT } from '../data.js';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { HERO_SLIDES } from '../data.js';
 
 export default function Hero() {
   const [slide, setSlide] = useState(0);
@@ -28,28 +28,6 @@ export default function Hero() {
         <div key={i} className={`hero-slide ${i === slide ? 'active' : ''}`}>
           <img src={s.src} alt={s.title} />
           <div className="hero-overlay" />
-          <div className="hero-content">
-            <div className="container">
-              <div className="hero-inner">
-                <span className="hero-eyebrow">{s.eyebrow}</span>
-                <h1>{s.title}</h1>
-                <p className="sub">{s.sub}</p>
-                <div className="hero-actions">
-                  <a href={CONTACT.phoneTel} className="btn btn-primary">
-                    <Phone size={16} /> Book a Visit
-                  </a>
-                  <a
-                    href={CONTACT.whatsapp}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn btn-ghost"
-                  >
-                    <MessageCircle size={16} /> Chat on WhatsApp
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       ))}
 

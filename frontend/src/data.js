@@ -34,27 +34,27 @@ export const CONTACT = {
 export const HERO_SLIDES = [
   {
     src: 'https://images.unsplash.com/photo-1631679706909-1844bbd07221?auto=format&fit=crop&w=1600&q=80',
-    eyebrow: 'A home for students & professionals',
-    title: 'Stay where Baner feels like home.',
-    sub: 'Premium PG accommodation for boys & girls — across 4 carefully chosen locations in Baner, Pune.',
+    title: 'Slide 1',
   },
   {
     src: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1600&q=80',
-    eyebrow: 'Furnished. Spacious. Calm.',
-    title: 'Rooms designed for rest and focus.',
-    sub: 'Single, double and triple sharing — every bed has its own space to study, sleep and unwind.',
+    title: 'Slide 2',
   },
   {
     src: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=1600&q=80',
-    eyebrow: 'Ghar jaisa khaana, daily',
-    title: 'Three home-cooked meals a day.',
-    sub: 'Hot, hygienic, vegetarian meals prepared in-house — the kind that reminds you of home.',
+    title: 'Slide 3',
   },
   {
     src: 'https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=1600&q=80',
-    eyebrow: 'Safe, 24×7',
-    title: 'Security you can actually feel.',
-    sub: 'CCTV-covered premises, biometric entry, and on-site caretakers — peace of mind for you and your family.',
+    title: 'Slide 4',
+  },
+  {
+    src: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1600&q=80',
+    title: 'Slide 5',
+  },
+  {
+    src: 'https://images.unsplash.com/photo-1540518614846-7eded433c457?auto=format&fit=crop&w=1600&q=80',
+    title: 'Slide 6',
   },
 ];
 
