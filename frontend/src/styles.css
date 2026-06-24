@@ -696,8 +696,9 @@ img { display: block; max-width: 100%; }
     pointer-events: auto;
   }
   .header-cta .btn-ghost { display: none; }
-  .header-cta .btn-primary { display: flex; padding: 8px 14px; font-size: 13px; }
-  .header-cta { flex: 1; justify-content: center; }
+  .header-cta .btn-primary { display: flex; padding: 8px 14px; font-size: 13px; margin: 0 auto; }
+  .header-cta { flex: 1; justify-content: center; gap: 0; }
+  .nav-toggle { margin-left: auto; }
   .mobile-bar { display: none; }
   .fab-wa { bottom: 24px; right: 16px; width: 54px; height: 54px; }
   body { padding-bottom: 0; }
