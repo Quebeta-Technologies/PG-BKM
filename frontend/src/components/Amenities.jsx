@@ -62,7 +62,7 @@ export default function Amenities() {
                   border: '1px solid rgba(255,255,255,0.12)',
                   backdropFilter: 'blur(12px)',
                 }}>
-                  <div className="amenity-icon">
+                  <div className="amenity-icon" style={{ background: 'var(--gold)', color: 'var(--navy-deep)' }}>
                     <Icon size={24} />
                   </div>
                   <h3 style={{ color: 'white' }}>{a.title}</h3>
