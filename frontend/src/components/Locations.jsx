@@ -5,13 +5,6 @@ import { LOCATIONS, LANDMARKS } from '../data.js';
 
 const ICON_MAP = { Briefcase, ShoppingBag, Coffee, GraduationCap, ShoppingCart, Heart, Car, Train, MapPin };
 
-const BRANCH_COORDS = [
-  { left: '38%', top: '32%' },
-  { left: '45%', top: '44%' },
-  { left: '52%', top: '30%' },
-  { left: '65%', top: '48%' },
-];
-
 export default function Locations() {
   return (
     <section className="section plain-bg" id="locations">
@@ -52,39 +45,14 @@ export default function Locations() {
 
         <Reveal>
           <div className="map-wrap">
-            <div className="map-pins-container">
-              {/* Working Google Maps embed */}
-              <iframe
-                title="Sri Krishna PG locations in Baner, Pune"
-                src="https://maps.google.com/maps?q=Baner,Pune&z=15&output=embed"
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                style={{ width: '100%', height: '100%', border: 0, display: 'block' }}
-              />
-
-              {/* Animated pin overlay */}
-              <div className="map-overlay-pins">
-                {BRANCH_COORDS.map((pos, i) => (
-                  <a
-                    key={i}
-                    href={LOCATIONS[i]?.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="map-pin-btn"
-                    style={{ left: pos.left, top: pos.top }}
-                    title={`Sri Krishna PG Branch ${i + 1}`}
-                  >
-                    <div className="map-pin-pulse" style={{ background: i === 3 ? 'var(--gold)' : 'var(--navy)' }} />
-                    <div className="map-pin-icon" style={{ background: i === 3 ? 'var(--gold)' : 'var(--navy)' }}>
-                      <span>{i + 1}</span>
-                    </div>
-                    <div className="map-pin-label">Branch {i + 1}</div>
-                  </a>
-                ))}
-              </div>
-            </div>
-
-            {/* Legend */}
+            <iframe
+              title="Sri Krishna PG locations in Baner, Pune"
+              src="https://maps.google.com/maps?q=Baner,Pune&z=15&output=embed"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              style={{ width: '100%', height: '420px', border: 0, display: 'block' }}
+            />
+            {/* Branch links legend */}
             <div className="map-legend">
               {LOCATIONS.map((l, i) => (
                 <a key={i} href={l.url} target="_blank" rel="noopener noreferrer" className="map-legend-item">
