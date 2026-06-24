@@ -5,6 +5,14 @@ import { LOCATIONS, LANDMARKS } from '../data.js';
 
 const ICON_MAP = { Briefcase, ShoppingBag, Coffee, GraduationCap, ShoppingCart, Heart, Car, Train, MapPin };
 
+// Embed URLs for each branch (using place search)
+const EMBED_URLS = [
+  'https://maps.google.com/maps?q=18.5590,73.7868&z=16&output=embed',
+  'https://maps.google.com/maps?q=18.5575,73.7845&z=16&output=embed',
+  'https://maps.google.com/maps?q=18.5560,73.7880&z=16&output=embed',
+  'https://maps.google.com/maps?q=18.5550,73.7672&z=16&output=embed',
+];
+
 export default function Locations() {
   return (
     <section className="section plain-bg" id="locations">
@@ -23,48 +31,51 @@ export default function Locations() {
         <div className="locations-grid">
           {LOCATIONS.map((l, i) => (
             <Reveal key={l.name} delay={i * 80}>
-              <div className="location-card">
-                <div className="location-num">{String(i + 1).padStart(2, '0')}</div>
-                <div className="location-body">
-                  <h3>{l.name}</h3>
-                  <div className="location-meta">
-                    <span>
-                      <MapPin size={13} style={{ display: 'inline', verticalAlign: '-2px', marginRight: 4 }} />
-                      {l.area}
-                    </span>
-                    <span className="tag">{l.tag}</span>
-                  </div>
-                  <a href={l.url} target="_blank" rel="noopener noreferrer" className="location-link">
-                    <Navigation size={14} /> Get directions →
+              <div className="location-card-new">
+                {/* Mini map */}
+                <div className="location-mini-map">
+                  <iframe
+                    title={l.name}
+                    src={EMBED_URLS[i]}
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    style={{ width: '100%', height: '100%', border: 0, display: 'block', pointerEvents: 'none' }}
+                  />
+                  {/* Overlay to open directions on click */}
+                  <a
+                    href={l.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="location-map-overlay"
+                    title="Open in Google Maps"
+                  >
+                    <div className="location-map-btn">
+                      <Navigation size={14} /> Open in Maps
+                    </div>
                   </a>
+                </div>
+
+                {/* Card info */}
+                <div className="location-card-body">
+                  <div className="location-num-badge">{String(i + 1).padStart(2, '0')}</div>
+                  <div className="location-info">
+                    <h3>{l.name}</h3>
+                    <div className="location-meta">
+                      <span>
+                        <MapPin size={13} style={{ display: 'inline', verticalAlign: '-2px', marginRight: 4 }} />
+                        {l.area}
+                      </span>
+                      <span className="tag">{l.tag}</span>
+                    </div>
+                    <a href={l.url} target="_blank" rel="noopener noreferrer" className="location-link">
+                      <Navigation size={14} /> Get directions →
+                    </a>
+                  </div>
                 </div>
               </div>
             </Reveal>
           ))}
         </div>
-
-        <Reveal>
-          <div className="map-wrap">
-            <iframe
-              title="Sri Krishna PG locations in Baner, Pune"
-              src="https://maps.google.com/maps?q=Baner,Pune&z=15&output=embed"
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              style={{ width: '100%', height: '420px', border: 0, display: 'block' }}
-            />
-            {/* Branch links legend */}
-            <div className="map-legend">
-              {LOCATIONS.map((l, i) => (
-                <a key={i} href={l.url} target="_blank" rel="noopener noreferrer" className="map-legend-item">
-                  <div className="map-legend-dot" style={{ background: i === 3 ? 'var(--gold)' : 'var(--navy)' }}>
-                    {i + 1}
-                  </div>
-                  <span>{l.name.replace('Sri Krishna PG — ', '')}</span>
-                </a>
-              ))}
-            </div>
-          </div>
-        </Reveal>
 
         {/* NEARBY LANDMARKS */}
         <div className="section-head" style={{ marginTop: 80, marginBottom: 16 }}>
