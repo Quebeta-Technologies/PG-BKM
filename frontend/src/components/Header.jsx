@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Phone, MessageCircle, Menu, X } from 'lucide-react';
+import { Phone, Menu, X } from 'lucide-react';
 import { CONTACT } from '../data.js';
 
 export default function Header() {
@@ -42,11 +42,11 @@ export default function Header() {
             <Phone size={16} /> Book a Visit
           </a>
           <button
-            className="btn nav-toggle"
+            className="nav-toggle"
             onClick={() => setNavOpen((o) => !o)}
             aria-label="Menu"
           >
-            {navOpen ? <X size={20} /> : <Menu size={20} />}
+            {navOpen ? <X size={22} color="white" /> : <Menu size={22} color="white" />}
           </button>
         </div>
       </div>
