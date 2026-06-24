@@ -334,100 +334,168 @@ img { display: block; max-width: 100%; }
 .step-card h3 { font-size: 19px; margin-bottom: 10px; text-align: center; }
 .step-card p { font-size: 14px; color: var(--ink-muted); text-align: center; line-height: 1.6; }
 
-/* ─────── NEW ANIMATED STEPS ─────── */
-.steps-grid-new {
+/* ─────── NEW HIW ANIMATED STEPS ─────── */
+.hiw-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
-  position: relative;
+  gap: 20px;
 }
 
-.step-card-new {
+.hiw-card {
+  position: relative;
   background: var(--white);
   border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 36px 24px 28px;
-  position: relative;
+  border-radius: 20px;
+  padding: 36px 20px 28px;
   text-align: center;
   overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-  cursor: default;
+  cursor: pointer;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.4s ease,
+              border-color 0.3s ease;
 }
 
-.step-card-new:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 24px 48px rgba(26, 45, 110, 0.12);
-  border-color: var(--gold);
+.hiw-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 32px 64px rgba(26, 45, 110, 0.14);
+  border-color: var(--card-bg, var(--navy));
 }
 
-/* Step number badge — top right corner */
-.step-badge {
+/* Animated background blob */
+.hiw-blob {
   position: absolute;
-  top: -1px;
-  right: 20px;
-  width: 44px;
-  height: 52px;
-  border-radius: 0 0 12px 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  top: -40px;
+  right: -40px;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  transform: scale(0.6);
 }
-.step-badge-num {
-  font-family: 'Fraunces', serif;
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 1;
+.hiw-card:hover .hiw-blob {
+  opacity: 1;
+  transform: scale(1);
 }
 
-/* Icon */
-.step-icon-wrap {
-  width: 72px;
-  height: 72px;
-  border-radius: 20px;
+/* Large faded step number */
+.hiw-num {
+  position: absolute;
+  top: 10px;
+  left: 16px;
+  font-family: 'Fraunces', serif;
+  font-size: 56px;
+  font-weight: 700;
+  opacity: 0.08;
+  line-height: 1;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  user-select: none;
+}
+.hiw-card:hover .hiw-num {
+  opacity: 0.13;
+  transform: scale(1.08);
+}
+
+/* Orbit ring container */
+.hiw-icon-orbit {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 22px;
+}
+
+/* Outer ring */
+.hiw-orbit-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1.5px solid;
+  animation: orbit-spin 8s linear infinite;
+}
+.hiw-orbit-ring--2 {
+  inset: -12px;
+  animation: orbit-spin 14s linear infinite reverse;
+}
+
+@keyframes orbit-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Icon circle */
+.hiw-icon-circle {
+  position: absolute;
+  inset: 12px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 20px;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.4s ease;
+}
+.hiw-card:hover .hiw-icon-circle {
+  transform: scale(1.12) rotate(-8deg);
+}
+
+/* Orbiting dot */
+.hiw-orbit-dot {
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-left: -5px;
+  animation: orbit-spin 4s linear infinite;
+  transform-origin: 5px 46px;
+  box-shadow: 0 0 8px currentColor;
+}
+
+/* Content */
+.hiw-content { position: relative; z-index: 1; }
+.hiw-title {
+  font-family: 'Fraunces', serif;
+  font-size: 19px;
+  font-weight: 700;
+  margin-bottom: 10px;
   transition: transform 0.3s ease;
 }
-.step-card-new:hover .step-icon-wrap {
-  transform: rotate(-6deg) scale(1.08);
-}
-
-/* Connector arrow between cards */
-.step-connector {
-  position: absolute;
-  top: 50%;
-  right: -13px;
-  width: 26px;
-  height: 3px;
-  border-radius: 2px;
-  transform-origin: left;
-  z-index: 2;
-}
-
-/* Title & desc */
-.step-title {
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--navy);
-  margin-bottom: 10px;
-}
-.step-desc {
-  font-size: 14px;
+.hiw-card:hover .hiw-title { transform: translateY(-2px); }
+.hiw-desc {
+  font-size: 13.5px;
   color: var(--ink-muted);
   line-height: 1.7;
 }
 
-/* Bottom accent bar */
-.step-accent-bar {
+/* Bottom glow bar */
+.hiw-glow-bar {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
   height: 4px;
-  border-radius: 0 0 16px 16px;
+  border-radius: 0 0 20px 20px;
   transform-origin: left;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Corner accent bracket */
+.hiw-corner {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  width: 20px;
+  height: 20px;
+  border-right: 2px solid;
+  border-bottom: 2px solid;
+  border-radius: 0 0 4px 0;
+  opacity: 0;
+  transition: opacity 0.3s ease 0.1s, transform 0.3s ease;
+  transform: translate(4px, 4px);
+}
+.hiw-card:hover .hiw-corner {
+  opacity: 0.4;
+  transform: translate(0, 0);
 }
 
 /* ─────── LOCATIONS ─────── */
@@ -559,6 +627,7 @@ img { display: block; max-width: 100%; }
   .steps-grid::before { display: none; }
   .steps-grid-new { grid-template-columns: repeat(2, 1fr); gap: 16px; }
   .step-connector { display: none; }
+  .hiw-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
   .locations-grid { grid-template-columns: 1fr; }
   .landmarks-grid { grid-template-columns: repeat(2, 1fr); }
   .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
@@ -577,6 +646,7 @@ img { display: block; max-width: 100%; }
   .amenities-grid { grid-template-columns: 1fr; }
   .steps-grid { grid-template-columns: 1fr; }
   .steps-grid-new { grid-template-columns: 1fr; }
+  .hiw-grid { grid-template-columns: 1fr; }
   .landmarks-grid { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr; }
   .hero-actions { flex-direction: column; align-items: stretch; }
