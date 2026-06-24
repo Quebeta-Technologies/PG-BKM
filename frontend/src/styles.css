@@ -140,10 +140,10 @@ img { display: block; max-width: 100%; }
 .header.scrolled { padding: 8px 0; }
 .header-inner { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: nowrap; }
 .brand { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
-.brand-text .name { font-family: 'Fraunces', serif; font-weight: 700; font-size: 15px; color: var(--navy); }
+.brand-text .name { font-family: 'Fraunces', serif; font-weight: 700; font-size: 20px; color: var(--navy); }
 .brand-text .sub { font-size: 10px; color: var(--ink-muted); letter-spacing: 0.15em; text-transform: uppercase; }
 .nav { display: flex; align-items: center; gap: 14px; }
-.nav a { font-size: 13px; color: var(--ink); font-weight: 500; transition: color 0.2s; position: relative; }
+.nav a { font-size: 15px; color: var(--ink); font-weight: 500; transition: color 0.2s; position: relative; }
 .nav a::after { content: ''; position: absolute; left: 0; bottom: -4px; width: 0; height: 1.5px; background: var(--gold); transition: width 0.3s; }
 .nav a:hover { color: var(--navy); }
 .nav a:hover::after { width: 100%; }
