@@ -19,9 +19,7 @@ export default function Header() {
       <div className="container header-inner">
         <a href="#top" className="brand">
           <img src="/images/logo.png" alt="Sri Krishna PG Logo" style={{ height: '52px', width: 'auto' }} />
-          <div className="brand-text">
-            <span className="name">Sri Krishna PG</span>
-          </div>
+
         </a>
 
         <nav className={`nav ${navOpen ? 'open' : ''}`}>
