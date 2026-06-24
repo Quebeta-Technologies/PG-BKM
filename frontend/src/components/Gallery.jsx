@@ -13,32 +13,23 @@ const PHOTOS = [
   'https://images.unsplash.com/photo-1567016432779-094069958ea5?auto=format&fit=crop&w=900&q=80',
 ];
 
-const EXTENDED = [...PHOTOS, ...PHOTOS];
-
 export default function Gallery() {
-  const [offset, setOffset] = useState(0);
+  const [start, setStart] = useState(0);
+  const [sliding, setSliding] = useState(false);
 
   useEffect(() => {
-    let frame;
-    let last = null;
-    const speed = 0.1; // px per ms — increase to go faster
-
-    const animate = (ts) => {
-      if (last !== null) {
-        setOffset((o) => {
-          const next = o + speed * (ts - last);
-          // each photo is 25% wide + gap — reset after 1 full set
-          const totalWidth = PHOTOS.length * 25;
-          return next >= totalWidth ? 0 : next;
-        });
-      }
-      last = ts;
-      frame = requestAnimationFrame(animate);
-    };
-
-    frame = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(frame);
+    const t = setInterval(() => {
+      setSliding(true);
+      setTimeout(() => {
+        setStart((s) => (s + 1) % PHOTOS.length);
+        setSliding(false);
+      }, 600);
+    }, 3000);
+    return () => clearInterval(t);
   }, []);
+
+  const visible = [0, 1, 2, 3].map((i) => PHOTOS[(start + i) % PHOTOS.length]);
+  const next = PHOTOS[(start + 4) % PHOTOS.length];
 
   return (
     <section className="section plain-bg" id="gallery">
@@ -56,11 +47,11 @@ export default function Gallery() {
             style={{
               display: 'flex',
               gap: '16px',
-              transform: `translateX(-${offset}%)`,
-              willChange: 'transform',
+              transform: sliding ? 'translateX(calc(-25% - 4px))' : 'translateX(0)',
+              transition: sliding ? 'transform 0.6s ease' : 'none',
             }}
           >
-            {EXTENDED.map((src, i) => (
+            {[...visible, next].map((src, i) => (
               <div
                 key={i}
                 style={{
