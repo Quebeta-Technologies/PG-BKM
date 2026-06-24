@@ -2,6 +2,7 @@ import Header from './components/Header.jsx';
 import Hero from './components/Hero.jsx';
 import Stats from './components/Stats.jsx';
 import About from './components/About.jsx';
+import Gallery from './components/Gallery.jsx';
 import Amenities from './components/Amenities.jsx';
 import Food from './components/Food.jsx';
 import Rooms from './components/Rooms.jsx';
@@ -22,6 +23,7 @@ export default function App() {
         <Hero />
         <Stats />
         <About />
+        <Gallery />
         <Amenities />
         <Food />
         <Rooms />
