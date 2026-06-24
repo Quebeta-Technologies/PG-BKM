@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { Phone, MessageCircle, Menu, X } from 'lucide-react';
-import LogoMark from '../ui/LogoMark.jsx';
 import { CONTACT } from '../data.js';
 
 export default function Header() {
@@ -19,7 +18,7 @@ export default function Header() {
     <header className={`header ${scrolled ? 'scrolled' : ''}`}>
       <div className="container header-inner">
         <a href="#top" className="brand">
-          <LogoMark size={44} />
+          <img src="/logo.png" alt="Sri Krishna PG Logo" style={{ height: '52px', width: 'auto' }} />
           <div className="brand-text">
             <span className="name">Sri Krishna PG</span>
           </div>

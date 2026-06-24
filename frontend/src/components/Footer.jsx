@@ -1,5 +1,4 @@
-import { Phone, MessageCircle, MapPin, Clock, Mail } from 'lucide-react';
-import LogoMark from '../ui/LogoMark.jsx';
+import { Phone, MessageCircle, MapPin, Clock } from 'lucide-react';
 import { CONTACT, LOCATIONS } from '../data.js';
 
 export default function Footer() {
@@ -9,7 +8,7 @@ export default function Footer() {
         <div className="footer-grid">
           <div>
             <div className="footer-brand">
-              <LogoMark size={40} />
+              <img src="/logo.png" alt="Sri Krishna PG Logo" style={{ height: '48px', width: 'auto' }} />
               <span className="name">Sri Krishna PG</span>
             </div>
             <p className="footer-about">
