@@ -31,7 +31,7 @@ export default function Food() {
                 <img
                   key={i}
                   src={src}
-                  alt="Home-cooked vegetarian meals at Sri Krishna PG"
+                  alt="Home-cooked meals at Sri Krishna PG"
                   style={{
                     position: 'absolute',
                     inset: 0,
@@ -56,8 +56,8 @@ export default function Food() {
               <Eyebrow centered={false}>Ghar ka khana</Eyebrow>
               <h2>Home-cooked meals, every single day.</h2>
               <p style={{ color: 'var(--ink-muted)', fontSize: 17 }}>
-                Our in-house kitchen serves fresh, hot, vegetarian meals — no third-party tiffin, no
-                shortcuts. Breakfast & Dinner daily. Lunch available on weekends.
+                Our in-house kitchen serves fresh, hot meals — both vegetarian and non-vegetarian.
+                No third-party tiffin, no shortcuts. Breakfast & Dinner daily. Lunch available on weekends.
               </p>
 
               <div className="food-meals">
