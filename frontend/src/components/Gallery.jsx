@@ -13,17 +13,32 @@ const PHOTOS = [
   'https://images.unsplash.com/photo-1567016432779-094069958ea5?auto=format&fit=crop&w=900&q=80',
 ];
 
+const EXTENDED = [...PHOTOS, ...PHOTOS];
+
 export default function Gallery() {
-  const [start, setStart] = useState(0);
+  const [offset, setOffset] = useState(0);
 
   useEffect(() => {
-    const t = setInterval(() => {
-      setStart((s) => (s + 1) % PHOTOS.length);
-    }, 2500);
-    return () => clearInterval(t);
-  }, []);
+    let frame;
+    let last = null;
+    const speed = 0.4; // px per ms — increase to go faster
 
-  const visible = [0, 1, 2, 3].map((i) => PHOTOS[(start + i) % PHOTOS.length]);
+    const animate = (ts) => {
+      if (last !== null) {
+        setOffset((o) => {
+          const next = o + speed * (ts - last);
+          // each photo is 25% wide + gap — reset after 1 full set
+          const totalWidth = PHOTOS.length * 25;
+          return next >= totalWidth ? 0 : next;
+        });
+      }
+      last = ts;
+      frame = requestAnimationFrame(animate);
+    };
+
+    frame = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(frame);
+  }, []);
 
   return (
     <section className="section plain-bg" id="gallery">
@@ -36,16 +51,34 @@ export default function Gallery() {
           </div>
         </Reveal>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}>
-          {visible.map((src, i) => (
-            <div key={i} style={{ borderRadius: '8px', overflow: 'hidden', aspectRatio: '3/4' }}>
-              <img
-                src={src}
-                alt={`Sri Krishna PG room ${start + i + 1}`}
-                style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'opacity 0.5s ease' }}
-              />
-            </div>
-          ))}
+        <div style={{ overflow: 'hidden', width: '100%' }}>
+          <div
+            style={{
+              display: 'flex',
+              gap: '16px',
+              transform: `translateX(-${offset}%)`,
+              willChange: 'transform',
+            }}
+          >
+            {EXTENDED.map((src, i) => (
+              <div
+                key={i}
+                style={{
+                  flexShrink: 0,
+                  width: 'calc(25% - 12px)',
+                  borderRadius: '8px',
+                  overflow: 'hidden',
+                  aspectRatio: '3/4',
+                }}
+              >
+                <img
+                  src={src}
+                  alt={`Sri Krishna PG room ${i + 1}`}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
