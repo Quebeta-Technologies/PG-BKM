@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import Reveal from '../ui/Reveal.jsx';
 import Eyebrow from '../ui/Eyebrow.jsx';
 
@@ -17,8 +16,12 @@ const PHOTOS = [
 export default function Gallery() {
   const [start, setStart] = useState(0);
 
-  const prev = () => setStart((s) => (s - 1 + PHOTOS.length) % PHOTOS.length);
-  const next = () => setStart((s) => (s + 1) % PHOTOS.length);
+  useEffect(() => {
+    const t = setInterval(() => {
+      setStart((s) => (s + 1) % PHOTOS.length);
+    }, 2500);
+    return () => clearInterval(t);
+  }, []);
 
   const visible = [0, 1, 2, 3].map((i) => PHOTOS[(start + i) % PHOTOS.length]);
 
@@ -33,24 +36,17 @@ export default function Gallery() {
           </div>
         </Reveal>
 
-        <Reveal>
-          <div style={{ position: 'relative' }}>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}>
-              {visible.map((src, i) => (
-                <div key={i} style={{ borderRadius: '8px', overflow: 'hidden', aspectRatio: '3/4' }}>
-                  <img src={src} alt={`Sri Krishna PG room ${start + i + 1}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                </div>
-              ))}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}>
+          {visible.map((src, i) => (
+            <div key={i} style={{ borderRadius: '8px', overflow: 'hidden', aspectRatio: '3/4' }}>
+              <img
+                src={src}
+                alt={`Sri Krishna PG room ${start + i + 1}`}
+                style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'opacity 0.5s ease' }}
+              />
             </div>
-
-            <button onClick={prev} style={{ position: 'absolute', left: '-20px', top: '50%', transform: 'translateY(-50%)', width: '44px', height: '44px', borderRadius: '50%', background: 'var(--navy)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', border: 'none', cursor: 'pointer' }}>
-              <ChevronLeft size={20} />
-            </button>
-            <button onClick={next} style={{ position: 'absolute', right: '-20px', top: '50%', transform: 'translateY(-50%)', width: '44px', height: '44px', borderRadius: '50%', background: 'var(--navy)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', border: 'none', cursor: 'pointer' }}>
-              <ChevronRight size={20} />
-            </button>
-          </div>
-        </Reveal>
+          ))}
+        </div>
       </div>
     </section>
   );
