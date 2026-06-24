@@ -8,7 +8,7 @@ export default function Footer() {
         <div className="footer-grid">
           <div>
             <div className="footer-brand">
-              <img src="/images/logo.png" alt="Sri Krishna PG Logo" style={{ height: '48px', width: 'auto' }} />
+              <img src="/images/logo.png" alt="Sri Krishna PG Logo" style={{ height: '64px', width: 'auto' }} />
 
             </div>
             <p className="footer-about">

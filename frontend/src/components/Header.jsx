@@ -18,7 +18,7 @@ export default function Header() {
     <header className={`header ${scrolled ? 'scrolled' : ''}`}>
       <div className="container header-inner">
         <a href="#top" className="brand">
-          <img src="/images/logo.png" alt="Sri Krishna PG Logo" style={{ height: '52px', width: 'auto' }} />
+          <img src="/images/logo.png" alt="Sri Krishna PG Logo" style={{ height: '68px', width: 'auto' }} />
 
         </a>
 
