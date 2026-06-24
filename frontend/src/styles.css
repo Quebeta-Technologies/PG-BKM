@@ -25,7 +25,7 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: 'Times New Roman', Times, serif;
   color: var(--ink);
   background: var(--white);
   line-height: 1.6;
@@ -741,4 +741,8 @@ img { display: block; max-width: 100%; }
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+* {
+  font-family: 'Times New Roman', Times, serif !important;
 }
