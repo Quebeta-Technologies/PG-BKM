@@ -13,9 +13,20 @@ const PHOTOS = [
   'https://images.unsplash.com/photo-1567016432779-094069958ea5?auto=format&fit=crop&w=900&q=80',
 ];
 
+function useColumns() {
+  const [cols, setCols] = useState(() => window.innerWidth <= 600 ? 1 : window.innerWidth <= 960 ? 2 : 4);
+  useEffect(() => {
+    const update = () => setCols(window.innerWidth <= 600 ? 1 : window.innerWidth <= 960 ? 2 : 4);
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, []);
+  return cols;
+}
+
 export default function Gallery() {
   const [start, setStart] = useState(0);
   const [sliding, setSliding] = useState(false);
+  const cols = useColumns();
 
   useEffect(() => {
     const t = setInterval(() => {
@@ -28,8 +39,10 @@ export default function Gallery() {
     return () => clearInterval(t);
   }, []);
 
-  const visible = [0, 1, 2, 3].map((i) => PHOTOS[(start + i) % PHOTOS.length]);
-  const next = PHOTOS[(start + 4) % PHOTOS.length];
+  const visible = Array.from({ length: cols }, (_, i) => PHOTOS[(start + i) % PHOTOS.length]);
+  const next = PHOTOS[(start + cols) % PHOTOS.length];
+  const itemWidth = cols === 1 ? '100%' : cols === 2 ? 'calc(50% - 8px)' : 'calc(25% - 12px)';
+  const slideOffset = cols === 1 ? 'calc(-100% - 16px)' : cols === 2 ? 'calc(-50% - 8px)' : 'calc(-25% - 4px)';
 
   return (
     <section className="section plain-bg" id="gallery">
@@ -47,7 +60,7 @@ export default function Gallery() {
             style={{
               display: 'flex',
               gap: '16px',
-              transform: sliding ? 'translateX(calc(-25% - 4px))' : 'translateX(0)',
+              transform: sliding ? `translateX(${slideOffset})` : 'translateX(0)',
               transition: sliding ? 'transform 0.6s ease' : 'none',
             }}
           >
@@ -56,7 +69,7 @@ export default function Gallery() {
                 key={i}
                 style={{
                   flexShrink: 0,
-                  width: 'calc(25% - 12px)',
+                  width: itemWidth,
                   borderRadius: '8px',
                   overflow: 'hidden',
                   aspectRatio: '3/4',
