@@ -13,24 +13,30 @@ export default function Amenities() {
   const [offset, setOffset] = useState(0);
   const offsetRef = useRef(0);
   const rafRef = useRef(null);
-  const cardWidth = useRef(300);
+  const cardWidthRef = useRef(300);
+  const [cardW, setCardW] = useState(300);
 
   const getCardWidth = () => {
-    if (window.innerWidth < 640) return Math.min(260, window.innerWidth - 60);
-    if (window.innerWidth < 1024) return 280;
+    const vw = window.innerWidth;
+    if (vw < 640) return vw - 48; // one card, full width minus padding
+    if (vw < 1024) return 280;
     return 300;
   };
 
   useEffect(() => {
-    cardWidth.current = getCardWidth();
-    const handleResize = () => { cardWidth.current = getCardWidth(); };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    const update = () => {
+      const w = getCardWidth();
+      cardWidthRef.current = w;
+      setCardW(w);
+    };
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
   }, []);
 
   useEffect(() => {
     const gap = 20;
-    const singleSetWidth = AMENITIES.length * (cardWidth.current + gap);
+    const singleSetWidth = AMENITIES.length * (cardWidthRef.current + gap);
 
     const animate = () => {
       offsetRef.current += 0.5;
@@ -41,9 +47,10 @@ export default function Amenities() {
       rafRef.current = requestAnimationFrame(animate);
     };
 
+    cancelAnimationFrame(rafRef.current);
     rafRef.current = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(rafRef.current);
-  }, []);
+  }, [cardW]);
 
   return (
     <section
@@ -56,7 +63,7 @@ export default function Amenities() {
         padding: '40px 0',
       }}
     >
-      {/* Animated background blobs */}
+      {/* Background blobs */}
       <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', zIndex: 0, pointerEvents: 'none' }}>
         {[...Array(6)].map((_, i) => (
           <div key={i} style={{
@@ -92,7 +99,7 @@ export default function Amenities() {
         </div>
       </div>
 
-      {/* Infinite carousel — full width */}
+      {/* Infinite carousel */}
       <div style={{ overflow: 'hidden', position: 'relative', zIndex: 1 }}>
         <div
           ref={trackRef}
@@ -101,22 +108,24 @@ export default function Amenities() {
             gap: '20px',
             transform: `translateX(-${offset}px)`,
             willChange: 'transform',
-            paddingLeft: '20px',
+            paddingLeft: '24px',
           }}
         >
           {DUPLICATED.map((a, i) => {
             const Icon = ICON_MAP[a.icon] || Star;
             return (
               <div key={i} style={{
-                minWidth: `${getCardWidth()}px`,
+                minWidth: `${cardW}px`,
+                width: `${cardW}px`,
                 background: 'rgba(255,255,255,0.06)',
                 border: '1px solid rgba(255,255,255,0.12)',
                 backdropFilter: 'blur(12px)',
                 borderRadius: '16px',
                 padding: '28px 24px',
                 flexShrink: 0,
+                boxSizing: 'border-box',
               }}>
-                <div className="amenity-icon" style={{ background: 'var(--gold)', color: 'var(--navy-deep)', marginBottom: '16px' }}>
+                <div className="amenity-icon" style={{ background: 'linear-gradient(135deg, #2E8B3A 0%, #1a5c24 100%)', color: 'white', marginBottom: '16px' }}>
                   <Icon size={24} />
                 </div>
                 <h3 style={{ color: 'white', marginBottom: '8px' }}>{a.title}</h3>
