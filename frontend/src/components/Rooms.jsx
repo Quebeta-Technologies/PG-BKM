@@ -1,7 +1,9 @@
-import { Bed, CheckCircle2 } from 'lucide-react';
+import { User, Users, Users2, CheckCircle2 } from 'lucide-react';
 import Reveal from '../ui/Reveal.jsx';
 import Eyebrow from '../ui/Eyebrow.jsx';
 import { ROOMS } from '../data.js';
+
+const ROOM_ICONS = [User, Users, Users2];
 
 export default function Rooms() {
   return (
@@ -19,23 +21,26 @@ export default function Rooms() {
         </div>
 
         <div className="rooms-grid">
-          {ROOMS.map((r, i) => (
-            <Reveal key={r.type} delay={i * 100}>
-              <div className="room-card">
-                <Bed size={32} className="room-icon" />
-                <h3>{r.type}</h3>
-                <p className="room-desc">{r.desc}</p>
-                <div className="room-features">
-                  {r.features.map((f) => (
-                    <div className="room-feature" key={f}>
-                      <CheckCircle2 size={16} />
-                      <span>{f}</span>
-                    </div>
-                  ))}
+          {ROOMS.map((r, i) => {
+            const Icon = ROOM_ICONS[i];
+            return (
+              <Reveal key={r.type} delay={i * 100}>
+                <div className="room-card">
+                  <Icon size={32} className="room-icon" />
+                  <h3>{r.type}</h3>
+                  <p className="room-desc">{r.desc}</p>
+                  <div className="room-features">
+                    {r.features.map((f) => (
+                      <div className="room-feature" key={f}>
+                        <CheckCircle2 size={16} />
+                        <span>{f}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            </Reveal>
-          ))}
+              </Reveal>
+            );
+          })}
         </div>
       </div>
     </section>
