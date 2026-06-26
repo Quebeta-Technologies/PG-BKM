@@ -362,7 +362,6 @@ img { display: block; max-width: 100%; }
   border-color: var(--card-bg, var(--navy));
 }
 
-/* Animated background blob */
 .hiw-blob {
   position: absolute;
   top: -40px;
@@ -379,7 +378,6 @@ img { display: block; max-width: 100%; }
   transform: scale(1);
 }
 
-/* Large faded step number */
 .hiw-num {
   position: absolute;
   top: 10px;
@@ -397,7 +395,6 @@ img { display: block; max-width: 100%; }
   transform: scale(1.08);
 }
 
-/* Orbit ring container */
 .hiw-icon-orbit {
   position: relative;
   width: 100px;
@@ -405,7 +402,6 @@ img { display: block; max-width: 100%; }
   margin: 0 auto 22px;
 }
 
-/* Outer ring */
 .hiw-orbit-ring {
   position: absolute;
   inset: 0;
@@ -423,7 +419,6 @@ img { display: block; max-width: 100%; }
   to { transform: rotate(360deg); }
 }
 
-/* Icon circle */
 .hiw-icon-circle {
   position: absolute;
   inset: 12px;
@@ -438,7 +433,6 @@ img { display: block; max-width: 100%; }
   transform: scale(1.12) rotate(-8deg);
 }
 
-/* Orbiting dot */
 .hiw-orbit-dot {
   position: absolute;
   top: 4px;
@@ -452,7 +446,6 @@ img { display: block; max-width: 100%; }
   box-shadow: 0 0 8px currentColor;
 }
 
-/* Content */
 .hiw-content { position: relative; z-index: 1; }
 .hiw-title {
   font-family: 'Fraunces', serif;
@@ -468,7 +461,6 @@ img { display: block; max-width: 100%; }
   line-height: 1.7;
 }
 
-/* Bottom glow bar */
 .hiw-glow-bar {
   position: absolute;
   bottom: 0;
@@ -480,7 +472,6 @@ img { display: block; max-width: 100%; }
   transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* Corner accent bracket */
 .hiw-corner {
   position: absolute;
   bottom: 12px;
@@ -513,7 +504,6 @@ img { display: block; max-width: 100%; }
 .map-embed { border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }
 .map-embed iframe { display: block; width: 100%; height: 420px; border: 0; filter: saturate(1.05); }
 
-/* New location card with mini map */
 .location-card-new {
   background: var(--white);
   border-radius: 12px;
@@ -609,17 +599,27 @@ img { display: block; max-width: 100%; }
 .testimonials .eyebrow { color: var(--gold-bright); justify-content: center; }
 .testimonials h2 { color: var(--white); }
 .testimonials .lede { color: rgba(255, 255, 255, 0.7); }
-.t-carousel { position: relative; max-width: 880px; margin: 0 auto; }
-.t-card { background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.1); padding: 56px 48px; border-radius: 8px; text-align: center; animation: rise 0.6s ease; }
+.t-carousel { position: relative; max-width: 880px; margin: 0 auto; overflow: hidden; }
+.t-card { background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.1); padding: 56px 48px; border-radius: 8px; text-align: center; }
 .t-quote { color: var(--gold); margin-bottom: 20px; display: inline-block; }
 .t-stars { display: flex; justify-content: center; gap: 4px; margin-bottom: 24px; }
 .t-stars svg { color: var(--gold-bright); fill: var(--gold-bright); }
 .t-text { font-family: 'Fraunces', serif; font-size: clamp(20px, 2.2vw, 26px); line-height: 1.5; font-weight: 400; color: var(--white); margin-bottom: 32px; }
 .t-author { font-weight: 600; color: var(--white); }
 .t-role { font-size: 14px; color: rgba(255, 255, 255, 0.6); margin-top: 4px; }
-.t-nav { display: flex; justify-content: center; gap: 8px; margin-top: 32px; }
-.t-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer; transition: all 0.3s; }
-.t-dot.active { background: var(--gold); width: 28px; border-radius: 4px; }
+
+@keyframes slideInFromRight {
+  from { opacity: 0; transform: translateX(80px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes slideInFromLeft {
+  from { opacity: 0; transform: translateX(-80px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.t-slide-next.t-enter { animation: slideInFromRight 0.35s ease forwards; }
+.t-slide-prev.t-enter { animation: slideInFromLeft  0.35s ease forwards; }
+.t-slide-next.t-exit,
+.t-slide-prev.t-exit  { opacity: 0; }
 
 /* ─────── FAQ ─────── */
 .faq-list { max-width: 800px; margin: 0 auto; }
@@ -668,7 +668,6 @@ img { display: block; max-width: 100%; }
 
 /* ═══════════ RESPONSIVE ═══════════ */
 @media (max-width: 960px) {
-  /* Show hamburger & hide nav on tablet/mobile */
   .nav-toggle { display: flex; }
   .nav {
     display: flex;
@@ -683,7 +682,6 @@ img { display: block; max-width: 100%; }
     gap: 20px;
     box-shadow: 0 24px 48px rgba(26, 45, 110, 0.15);
     border: 1px solid var(--border);
-    /* Smooth slide + fade */
     opacity: 0;
     transform: translateY(-12px);
     pointer-events: none;
