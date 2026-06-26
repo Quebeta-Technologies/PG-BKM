@@ -763,7 +763,6 @@ img { display: block; max-width: 100%; }
   font-weight: 600;
   font-size: 0.9rem;
   text-decoration: none;
-  transition: background 0.2s ease;
 }
 
 .room-cta-btn:hover {
