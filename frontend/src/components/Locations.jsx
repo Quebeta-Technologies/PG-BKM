@@ -13,12 +13,20 @@ const EMBED_URLS = [
   'https://maps.google.com/maps?q=18.5550,73.7672&z=16&output=embed',
 ];
 
-const total = Math.ceil(LOCATIONS.length / 2); // 2 pairs = 2 slides
-
 export default function Locations() {
   const [idx, setIdx] = useState(0);
   const [animating, setAnimating] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const timerRef = useRef(null);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 640);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
+
+  const total = isMobile ? LOCATIONS.length : Math.ceil(LOCATIONS.length / 2);
 
   const goNext = () => {
     if (animating) return;
@@ -32,54 +40,56 @@ export default function Locations() {
   useEffect(() => {
     timerRef.current = setInterval(goNext, 3000);
     return () => clearInterval(timerRef.current);
-  }, [animating]);
+  }, [animating, isMobile]);
 
-  const pair = [LOCATIONS[idx * 2], LOCATIONS[idx * 2 + 1]];
+  const getPair = () => {
+    if (isMobile) return [LOCATIONS[idx]].map((l, i) => ({ l, i: idx }));
+    return [LOCATIONS[idx * 2], LOCATIONS[idx * 2 + 1]]
+      .filter(Boolean)
+      .map((l, i) => ({ l, i: idx * 2 + i }));
+  };
 
-  const renderCard = (l, i) => {
-    if (!l) return null;
-    return (
-      <div key={i} className="location-card-new" style={{ flex: 1 }}>
-        <div className="location-mini-map">
-          <iframe
-            title={l.name}
-            src={EMBED_URLS[i]}
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-            style={{ width: '100%', height: '100%', border: 0, display: 'block', pointerEvents: 'none' }}
-          />
-          <a
-            href={l.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="location-map-overlay"
-            title="Open in Google Maps"
-          >
-            <div className="location-map-btn">
-              <Navigation size={14} /> Open in Maps
-            </div>
+  const renderCard = ({ l, i }) => (
+    <div key={i} className="location-card-new" style={{ flex: 1 }}>
+      <div className="location-mini-map">
+        <iframe
+          title={l.name}
+          src={EMBED_URLS[i]}
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+          style={{ width: '100%', height: '100%', border: 0, display: 'block', pointerEvents: 'none' }}
+        />
+        <a
+          href={l.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="location-map-overlay"
+          title="Open in Google Maps"
+        >
+          <div className="location-map-btn">
+            <Navigation size={14} /> Open in Maps
+          </div>
+        </a>
+      </div>
+
+      <div className="location-card-body">
+        <div className="location-num-badge">{String(i + 1).padStart(2, '0')}</div>
+        <div className="location-info">
+          <h3>{l.name}</h3>
+          <div className="location-meta">
+            <span>
+              <MapPin size={13} style={{ display: 'inline', verticalAlign: '-2px', marginRight: 4 }} />
+              {l.area}
+            </span>
+            <span className="tag">{l.tag}</span>
+          </div>
+          <a href={l.url} target="_blank" rel="noopener noreferrer" className="location-link">
+            <Navigation size={14} /> Get directions →
           </a>
         </div>
-
-        <div className="location-card-body">
-          <div className="location-num-badge">{String(i + 1).padStart(2, '0')}</div>
-          <div className="location-info">
-            <h3>{l.name}</h3>
-            <div className="location-meta">
-              <span>
-                <MapPin size={13} style={{ display: 'inline', verticalAlign: '-2px', marginRight: 4 }} />
-                {l.area}
-              </span>
-              <span className="tag">{l.tag}</span>
-            </div>
-            <a href={l.url} target="_blank" rel="noopener noreferrer" className="location-link">
-              <Navigation size={14} /> Get directions →
-            </a>
-          </div>
-        </div>
       </div>
-    );
-  };
+    </div>
+  );
 
   return (
     <section className="section plain-bg" id="locations">
@@ -95,7 +105,6 @@ export default function Locations() {
           </Reveal>
         </div>
 
-        {/* Carousel */}
         <Reveal>
           <div style={{ position: 'relative', overflow: 'hidden' }}>
             <div
@@ -106,10 +115,8 @@ export default function Locations() {
                 animation: animating ? 'locExit 0.4s ease forwards' : 'locEnter 0.4s ease forwards',
               }}
             >
-              {pair.map((l, pi) => renderCard(l, idx * 2 + pi))}
+              {getPair().map(renderCard)}
             </div>
-
-
           </div>
         </Reveal>
 

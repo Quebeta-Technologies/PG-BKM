@@ -8,9 +8,17 @@ export default function Testimonials() {
   const [idx, setIdx] = useState(0);
   const [direction, setDirection] = useState('next');
   const [animating, setAnimating] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const timerRef = useRef(null);
 
-  const total = Math.floor(TESTIMONIALS.length / 2);
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 640);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
+
+  const total = isMobile ? TESTIMONIALS.length : Math.floor(TESTIMONIALS.length / 2);
 
   const resetTimer = () => {
     clearInterval(timerRef.current);
@@ -20,7 +28,7 @@ export default function Testimonials() {
   useEffect(() => {
     timerRef.current = setInterval(() => goTo('next'), 4000);
     return () => clearInterval(timerRef.current);
-  }, []);
+  }, [isMobile]);
 
   const goTo = (dir, targetIdx = null) => {
     if (animating) return;
@@ -28,21 +36,21 @@ export default function Testimonials() {
     setAnimating(true);
     setTimeout(() => {
       setIdx((i) => {
-        if (targetIdx !== null) return targetIdx;
-        return dir === 'next'
-          ? (i + 1) % total
-          : (i - 1 + total) % total;
+        if (targetIdx !== null) return targetIdx % total;
+        return dir === 'next' ? (i + 1) % total : (i - 1 + total) % total;
       });
       setAnimating(false);
     }, 350);
     resetTimer();
   };
 
-  const t1 = TESTIMONIALS[idx * 2];
-  const t2 = TESTIMONIALS[idx * 2 + 1];
+  const getCards = () => {
+    if (isMobile) return [TESTIMONIALS[idx]];
+    return [TESTIMONIALS[idx * 2], TESTIMONIALS[idx * 2 + 1]].filter(Boolean);
+  };
 
   const renderCard = (t) => (
-    <div className="t-card" style={{ flex: 1 }}>
+    <div className="t-card" style={{ flex: 1 }} key={t.name}>
       <Quote className="t-quote" size={28} />
       <div className="t-stars">
         {Array.from({ length: t.rating }).map((_, i) => (
@@ -84,8 +92,7 @@ export default function Testimonials() {
               key={idx}
               style={{ display: 'flex', gap: '24px' }}
             >
-              {t1 && renderCard(t1)}
-              {t2 && renderCard(t2)}
+              {getCards().map(renderCard)}
             </div>
           </div>
         </Reveal>
