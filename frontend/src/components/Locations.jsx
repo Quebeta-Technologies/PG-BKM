@@ -40,8 +40,7 @@ export default function Locations() {
             <Eyebrow>Four homes across Baner</Eyebrow>
             <h2>Pick the branch closest to your work or college.</h2>
             <p className="lede">
-              All four of our branches are in Baner — minutes from Hinjewadi IT Park, Balewadi, and
-              the Mumbai-Pune highway.
+              All four branches are in Baner, minutes from Hinjewadi IT Park, Balewadi, and the Mumbai-Pune highway.
             </p>
           </Reveal>
         </div>
@@ -52,7 +51,7 @@ export default function Locations() {
               <div style={{
                 display: 'flex',
                 transition: 'transform 0.5s ease',
-                transform: `translateX(-${current * 100}%)`,
+                transform: 'translateX(-' + (current * 100) + '%)',
               }}>
                 {LOCATIONS.map((l, i) => (
                   <div key={l.name} style={{ minWidth: '100%', padding: '0 4px', boxSizing: 'border-box' }}>
@@ -149,7 +148,7 @@ export default function Locations() {
           <Reveal>
             <Eyebrow>Everything within reach</Eyebrow>
             <h2>What's nearby.</h2>
-            <p className="lede">Distances from Baner — measured from our central branches.</p>
+            <p className="lede">Distances from Baner, measured from our central branches.</p>
           </Reveal>
         </div>
 
