@@ -32,48 +32,49 @@ export default function Food() {
     <section className="section plain-bg" id="food">
       <div className="container">
 
-        {/* Eyebrow + heading — full width, no wrap */}
+        {/* Eyebrow + heading + description — full width left */}
         <Reveal>
           <Eyebrow centered={false}>Ghar ka khana</Eyebrow>
           <h2 style={{ whiteSpace: 'nowrap' }}>Home-cooked meals, every single day.</h2>
+          <p style={{ color: 'var(--ink-muted)', fontSize: 17, whiteSpace: 'nowrap', marginTop: '8px' }}>
+            Our in-house kitchen serves fresh, hot meals — both veg and non-veg. No third-party tiffin.
+          </p>
         </Reveal>
 
         <div className="food-grid" style={{ marginTop: '32px' }}>
 
-          {/* LEFT — image carousel */}
+          {/* LEFT — image carousel (original size) */}
           <Reveal>
-            <div className="food-img" style={{ position: 'relative', overflow: 'hidden', borderRadius: '8px', aspectRatio: '4/3' }}>
-              {FOOD_IMAGES.map((src, i) => (
-                <img
-                  key={i}
-                  src={src}
-                  alt="Home-cooked meals at Sri Krishna PG"
-                  style={{
-                    position: 'absolute',
-                    inset: 0,
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                    opacity: i === current ? 1 : 0,
-                    transition: 'opacity 0.8s ease',
-                  }}
-                />
-              ))}
-              <div style={{ position: 'absolute', bottom: '12px', left: '50%', transform: 'translateX(-50%)', display: 'flex', gap: '6px' }}>
-                {FOOD_IMAGES.map((_, i) => (
-                  <div key={i} onClick={() => setCurrent(i)} style={{ width: i === current ? '20px' : '8px', height: '8px', borderRadius: '4px', background: i === current ? 'var(--gold)' : 'rgba(255,255,255,0.6)', cursor: 'pointer', transition: 'all 0.3s' }} />
+            <div className="food-img">
+              <div style={{ position: 'relative', overflow: 'hidden', borderRadius: '8px', aspectRatio: '4/3' }}>
+                {FOOD_IMAGES.map((src, i) => (
+                  <img
+                    key={i}
+                    src={src}
+                    alt="Home-cooked meals at Sri Krishna PG"
+                    style={{
+                      position: 'absolute',
+                      inset: 0,
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      opacity: i === current ? 1 : 0,
+                      transition: 'opacity 0.8s ease',
+                    }}
+                  />
                 ))}
+                <div style={{ position: 'absolute', bottom: '12px', left: '50%', transform: 'translateX(-50%)', display: 'flex', gap: '6px' }}>
+                  {FOOD_IMAGES.map((_, i) => (
+                    <div key={i} onClick={() => setCurrent(i)} style={{ width: i === current ? '20px' : '8px', height: '8px', borderRadius: '4px', background: i === current ? 'var(--gold)' : 'rgba(255,255,255,0.6)', cursor: 'pointer', transition: 'all 0.3s' }} />
+                  ))}
+                </div>
               </div>
             </div>
           </Reveal>
 
-          {/* RIGHT — description + accordion */}
+          {/* RIGHT — accordion + highlights */}
           <Reveal delay={150}>
             <div className="food-body">
-              <p style={{ color: 'var(--ink-muted)', fontSize: 17, whiteSpace: 'nowrap' }}>
-                Our in-house kitchen serves fresh, hot meals — both veg and non-veg. No third-party tiffin.
-              </p>
-
               <div className="food-meals" style={{ gap: '10px', display: 'flex', flexDirection: 'column' }}>
                 {sortedMeals.map((m) => {
                   const Icon = ICON_MAP[m.icon] || Utensils;
