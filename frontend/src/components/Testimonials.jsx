@@ -12,11 +12,11 @@ export default function Testimonials() {
 
   const resetTimer = () => {
     clearInterval(timerRef.current);
-    timerRef.current = setInterval(() => goTo('next'), 6500);
+    timerRef.current = setInterval(() => goTo('next'), 2000);
   };
 
   useEffect(() => {
-    timerRef.current = setInterval(() => goTo('next'), 6500);
+    timerRef.current = setInterval(() => goTo('next'), 2000);
     return () => clearInterval(timerRef.current);
   }, []);
 
