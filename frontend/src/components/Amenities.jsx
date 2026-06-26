@@ -83,9 +83,8 @@ export default function Amenities() {
           <Reveal>
             <Eyebrow>What's included</Eyebrow>
             <h2 style={{ color: 'white' }}>Everything you need.</h2>
-            <p className="lede" style={{ color: 'rgba(255,255,255,0.7)' }}>
-              Every Sri Krishna PG branch comes equipped with the essentials — and a few comforts
-              you didn't expect.
+            <p className="lede" style={{ color: 'rgba(255,255,255,0.7)', whiteSpace: 'nowrap' }}>
+              Every Sri Krishna PG branch comes equipped with the essentials — and a few comforts you didn't expect.
             </p>
           </Reveal>
         </div>
