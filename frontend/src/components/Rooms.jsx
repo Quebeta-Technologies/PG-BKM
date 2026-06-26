@@ -41,7 +41,7 @@ export default function Rooms() {
                     href={CONTACT.phoneTel}
                     className="btn btn-primary"
                     style={{ marginTop: 'auto', paddingTop: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
-                  >
+                  <a>
                     <Phone size={16} /> Book a Visit
                   </a>
                 </div>
