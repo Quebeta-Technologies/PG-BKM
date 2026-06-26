@@ -10,7 +10,7 @@ export default function Testimonials() {
   const [animating, setAnimating] = useState(false);
   const timerRef = useRef(null);
 
-  const total = Math.floor(TESTIMONIALS.length / 2); // number of pairs
+  const total = Math.floor(TESTIMONIALS.length / 2);
 
   const resetTimer = () => {
     clearInterval(timerRef.current);
@@ -43,15 +43,24 @@ export default function Testimonials() {
 
   const renderCard = (t) => (
     <div className="t-card" style={{ flex: 1 }}>
-      <Quote className="t-quote" size={36} />
+      <Quote className="t-quote" size={28} />
       <div className="t-stars">
         {Array.from({ length: t.rating }).map((_, i) => (
-          <Star key={i} size={18} />
+          <Star key={i} size={14} />
         ))}
       </div>
-      <p className="t-text">{t.text}</p>
-      <div className="t-author">{t.name}</div>
-      <div className="t-role">{t.role}</div>
+      <p className="t-text" style={{ fontSize: '15px', lineHeight: 1.6 }}>{t.text}</p>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', marginTop: '20px' }}>
+        <img
+          src={`https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(t.name)}&backgroundColor=1A2D6E&textColor=D4A14A&fontSize=36`}
+          alt={t.name}
+          style={{ width: '44px', height: '44px', borderRadius: '50%', border: '2px solid var(--gold)', flexShrink: 0 }}
+        />
+        <div style={{ textAlign: 'left' }}>
+          <div className="t-author" style={{ fontSize: '14px' }}>{t.name}</div>
+          <div className="t-role" style={{ fontSize: '12px' }}>{t.role}</div>
+        </div>
+      </div>
     </div>
   );
 
@@ -78,26 +87,6 @@ export default function Testimonials() {
               {t1 && renderCard(t1)}
               {t2 && renderCard(t2)}
             </div>
-          </div>
-
-          {/* Dots */}
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginTop: '32px' }}>
-            {Array.from({ length: total }).map((_, i) => (
-              <button
-                key={i}
-                onClick={() => goTo(i > idx ? 'next' : 'prev', i)}
-                style={{
-                  width: i === idx ? '28px' : '10px',
-                  height: '10px',
-                  borderRadius: '999px',
-                  background: i === idx ? 'var(--gold)' : 'rgba(255,255,255,0.3)',
-                  border: 'none',
-                  cursor: 'pointer',
-                  transition: 'all 0.3s ease',
-                  padding: 0,
-                }}
-              />
-            ))}
           </div>
         </Reveal>
       </div>
