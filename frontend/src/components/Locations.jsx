@@ -46,10 +46,8 @@ export default function Locations() {
           </Reveal>
         </div>
 
-        {/* Carousel */}
         <Reveal>
           <div style={{ position: 'relative' }}>
-            {/* Track */}
             <div style={{ overflow: 'hidden', borderRadius: '12px' }}>
               <div style={{
                 display: 'flex',
@@ -92,7 +90,7 @@ export default function Locations() {
                             <span className="tag">{l.tag}</span>
                           </div>
                           <a href={l.url} target="_blank" rel="noopener noreferrer" className="location-link">
-                            <Navigation size={14} /> Get directions →
+                            <Navigation size={14} /> Get directions
                           </a>
                         </div>
                       </div>
@@ -102,7 +100,6 @@ export default function Locations() {
               </div>
             </div>
 
-            {/* Prev / Next arrows */}
             <button
               onClick={() => resetTimer(prev)}
               style={{
@@ -129,7 +126,6 @@ export default function Locations() {
             </button>
           </div>
 
-          {/* Dots */}
           <div style={{ display: 'flex', justifyContent: 'center', gap: '8px', marginTop: '20px' }}>
             {LOCATIONS.map((_, i) => (
               <button
@@ -149,7 +145,6 @@ export default function Locations() {
           </div>
         </Reveal>
 
-        {/* NEARBY LANDMARKS */}
         <div className="section-head" style={{ marginTop: 80, marginBottom: 16 }}>
           <Reveal>
             <Eyebrow>Everything within reach</Eyebrow>
