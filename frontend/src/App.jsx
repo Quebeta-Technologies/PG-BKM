@@ -6,7 +6,6 @@ import Gallery from './components/Gallery.jsx';
 import Amenities from './components/Amenities.jsx';
 import Food from './components/Food.jsx';
 import Rooms from './components/Rooms.jsx';
-import Pricing from './components/Pricing.jsx';
 import HowItWorks from './components/HowItWorks.jsx';
 import Locations from './components/Locations.jsx';
 import Testimonials from './components/Testimonials.jsx';
@@ -27,7 +26,6 @@ export default function App() {
         <Amenities />
         <Food />
         <Rooms />
-        <Pricing />
         <HowItWorks />
         <Locations />
         <Testimonials />
