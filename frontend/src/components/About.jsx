@@ -3,13 +3,13 @@ import Reveal from '../ui/Reveal.jsx';
 import Eyebrow from '../ui/Eyebrow.jsx';
 
 const POINTS = [
-  'Boys & Girls PG — separate dedicated floors',
-  'Walking distance from Hinjewadi IT Park',
-  'No brokerage & no hidden charges',
-  'Flexible monthly, quarterly or yearly stays',
-  '4 fully-furnished branches in Baner',
-  'Home-cooked veg & non-veg meals daily',
-  '24×7 CCTV security & biometric entry',
+  'Boys & Girls — separate floors',
+  'Near Hinjewadi IT Park',
+  'Zero brokerage & hidden charges',
+  'Monthly, quarterly or yearly stays',
+  '4 furnished branches in Baner',
+  'Veg & non-veg meals daily',
+  '24×7 CCTV & biometric security',
   'High-speed Wi-Fi & power backup',
   'AC & Non-AC rooms available',
   'Daily housekeeping included',
