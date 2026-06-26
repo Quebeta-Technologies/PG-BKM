@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Quote, Star } from 'lucide-react';
 import Reveal from '../ui/Reveal.jsx';
 import Eyebrow from '../ui/Eyebrow.jsx';
@@ -6,11 +6,35 @@ import { TESTIMONIALS } from '../data.js';
 
 export default function Testimonials() {
   const [idx, setIdx] = useState(0);
+  const [direction, setDirection] = useState('next');
+  const [animating, setAnimating] = useState(false);
+  const timerRef = useRef(null);
+
+  const resetTimer = () => {
+    clearInterval(timerRef.current);
+    timerRef.current = setInterval(() => goTo('next'), 6500);
+  };
 
   useEffect(() => {
-    const t = setInterval(() => setIdx((i) => (i + 1) % TESTIMONIALS.length), 6500);
-    return () => clearInterval(t);
+    timerRef.current = setInterval(() => goTo('next'), 6500);
+    return () => clearInterval(timerRef.current);
   }, []);
+
+  const goTo = (dir, targetIdx = null) => {
+    if (animating) return;
+    setDirection(dir);
+    setAnimating(true);
+    setTimeout(() => {
+      setIdx((i) => {
+        if (targetIdx !== null) return targetIdx;
+        return dir === 'next'
+          ? (i + 1) % TESTIMONIALS.length
+          : (i - 1 + TESTIMONIALS.length) % TESTIMONIALS.length;
+      });
+      setAnimating(false);
+    }, 350);
+    resetTimer();
+  };
 
   const t = TESTIMONIALS[idx];
 
@@ -29,7 +53,10 @@ export default function Testimonials() {
 
         <Reveal>
           <div className="t-carousel">
-            <div className="t-card" key={idx}>
+            <div
+              className={`t-card t-slide-${direction} ${animating ? 't-exit' : 't-enter'}`}
+              key={idx}
+            >
               <Quote className="t-quote" size={36} />
               <div className="t-stars">
                 {Array.from({ length: t.rating }).map((_, i) => (
@@ -39,16 +66,6 @@ export default function Testimonials() {
               <p className="t-text">{t.text}</p>
               <div className="t-author">{t.name}</div>
               <div className="t-role">{t.role}</div>
-            </div>
-            <div className="t-nav">
-              {TESTIMONIALS.map((_, i) => (
-                <button
-                  key={i}
-                  className={`t-dot ${i === idx ? 'active' : ''}`}
-                  onClick={() => setIdx(i)}
-                  aria-label={`Review ${i + 1}`}
-                />
-              ))}
             </div>
           </div>
         </Reveal>
