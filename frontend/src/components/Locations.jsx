@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react';
 import { MapPin, Navigation, Briefcase, ShoppingBag, Coffee, GraduationCap, ShoppingCart, Heart, Car, Train } from 'lucide-react';
 import Reveal from '../ui/Reveal.jsx';
 import Eyebrow from '../ui/Eyebrow.jsx';
@@ -5,7 +6,6 @@ import { LOCATIONS, LANDMARKS } from '../data.js';
 
 const ICON_MAP = { Briefcase, ShoppingBag, Coffee, GraduationCap, ShoppingCart, Heart, Car, Train, MapPin };
 
-// Embed URLs for each branch (using place search)
 const EMBED_URLS = [
   'https://maps.google.com/maps?q=18.5590,73.7868&z=16&output=embed',
   'https://maps.google.com/maps?q=18.5575,73.7845&z=16&output=embed',
@@ -14,6 +14,29 @@ const EMBED_URLS = [
 ];
 
 export default function Locations() {
+  const [idx, setIdx] = useState(0);
+  const [animating, setAnimating] = useState(false);
+  const timerRef = useRef(null);
+
+  const total = LOCATIONS.length;
+
+  const goNext = () => {
+    if (animating) return;
+    setAnimating(true);
+    setTimeout(() => {
+      setIdx((i) => (i + 1) % total);
+      setAnimating(false);
+    }, 400);
+  };
+
+  useEffect(() => {
+    timerRef.current = setInterval(goNext, 3000);
+    return () => clearInterval(timerRef.current);
+  }, [animating]);
+
+  const l = LOCATIONS[idx];
+  const i = idx;
+
   return (
     <section className="section plain-bg" id="locations">
       <div className="container">
@@ -28,11 +51,18 @@ export default function Locations() {
           </Reveal>
         </div>
 
-        <div className="locations-grid">
-          {LOCATIONS.map((l, i) => (
-            <Reveal key={l.name} delay={i * 80}>
+        {/* Carousel */}
+        <Reveal>
+          <div style={{ position: 'relative', overflow: 'hidden' }}>
+            <div
+              key={idx}
+              style={{
+                animation: animating ? 'locExit 0.4s ease forwards' : 'locEnter 0.4s ease forwards',
+                maxWidth: '700px',
+                margin: '0 auto',
+              }}
+            >
               <div className="location-card-new">
-                {/* Mini map */}
                 <div className="location-mini-map">
                   <iframe
                     title={l.name}
@@ -41,8 +71,7 @@ export default function Locations() {
                     referrerPolicy="no-referrer-when-downgrade"
                     style={{ width: '100%', height: '100%', border: 0, display: 'block', pointerEvents: 'none' }}
                   />
-                  {/* Overlay to open directions on click */}
-                  <a
+                  
                     href={l.url}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -55,7 +84,6 @@ export default function Locations() {
                   </a>
                 </div>
 
-                {/* Card info */}
                 <div className="location-card-body">
                   <div className="location-num-badge">{String(i + 1).padStart(2, '0')}</div>
                   <div className="location-info">
@@ -73,9 +101,29 @@ export default function Locations() {
                   </div>
                 </div>
               </div>
-            </Reveal>
-          ))}
-        </div>
+            </div>
+
+            {/* Dots */}
+            <div style={{ display: 'flex', justifyContent: 'center', gap: '8px', marginTop: '24px' }}>
+              {LOCATIONS.map((_, di) => (
+                <button
+                  key={di}
+                  onClick={() => { clearInterval(timerRef.current); setIdx(di); }}
+                  style={{
+                    width: di === idx ? '28px' : '8px',
+                    height: '8px',
+                    borderRadius: '4px',
+                    background: di === idx ? 'var(--navy)' : 'rgba(26,45,110,0.2)',
+                    border: 'none',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s',
+                    padding: 0,
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+        </Reveal>
 
         {/* NEARBY LANDMARKS */}
         <div className="section-head" style={{ marginTop: 80, marginBottom: 16 }}>
@@ -87,16 +135,16 @@ export default function Locations() {
         </div>
 
         <div className="landmarks-grid">
-          {LANDMARKS.map((l, i) => {
-            const Icon = ICON_MAP[l.icon] || MapPin;
+          {LANDMARKS.map((lm, li) => {
+            const Icon = ICON_MAP[lm.icon] || MapPin;
             return (
-              <Reveal key={l.name} delay={i * 60}>
+              <Reveal key={lm.name} delay={li * 60}>
                 <div className="landmark-card">
                   <div className="landmark-icon"><Icon size={20} /></div>
-                  <div className="landmark-name">{l.name}</div>
+                  <div className="landmark-name">{lm.name}</div>
                   <div className="landmark-meta">
-                    <span className="landmark-type">{l.type}</span>
-                    <span className="landmark-dist">{l.dist}</span>
+                    <span className="landmark-type">{lm.type}</span>
+                    <span className="landmark-dist">{lm.dist}</span>
                   </div>
                 </div>
               </Reveal>
