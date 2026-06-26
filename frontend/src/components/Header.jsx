@@ -19,17 +19,19 @@ export default function Header() {
       <div className="container header-inner">
         <a href="#top" className="brand">
           <img src="/images/logo.png" alt="Sri Krishna PG Logo" style={{ height: '68px', width: 'auto' }} />
-
         </a>
 
         <nav className={`nav ${navOpen ? 'open' : ''}`}>
+          <a href="#top" onClick={close}>Home</a>
           <a href="#about" onClick={close}>About</a>
-          <a href="#gallery" onClick={close}>Gallery</a>
-          <a href="#amenities" onClick={close}>Amenities</a>
           <a href="#rooms" onClick={close}>Rooms</a>
+          <a href="#amenities" onClick={close}>Amenities</a>
+          <a href="#food" onClick={close}>Food</a>
+          <a href="#how-it-works" onClick={close}>Process</a>
           <a href="#locations" onClick={close}>Locations</a>
           <a href="#reviews" onClick={close}>Reviews</a>
-          <a href="#faq" onClick={close}>FAQ</a>
+          <a href="#gallery" onClick={close}>Gallery</a>
+          <a href="#faq" onClick={close}>FAQ's</a>
         </nav>
 
         <div className="header-cta">
