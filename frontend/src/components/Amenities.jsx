@@ -9,21 +9,37 @@ const ICON_MAP = { Utensils, Wifi, ShieldCheck, Snowflake, Droplets, Zap, Shirt,
 export default function Amenities() {
   const [current, setCurrent] = useState(0);
   const timerRef = useRef(null);
-
   const total = AMENITIES.length;
 
-  const next = () => setCurrent((c) => (c + 1) % total);
-  const prev = () => setCurrent((c) => (c - 1 + total) % total);
+  const getVisible = () => {
+    if (typeof window !== 'undefined' && window.innerWidth < 640) return 1;
+    if (typeof window !== 'undefined' && window.innerWidth < 1024) return 2;
+    return 3;
+  };
+
+  const [visible, setVisible] = useState(3);
 
   useEffect(() => {
-    timerRef.current = setInterval(next, 3000);
-    return () => clearInterval(timerRef.current);
+    const handleResize = () => setVisible(getVisible());
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  const maxIndex = total - visible;
+
+  const next = () => setCurrent((c) => (c >= maxIndex ? 0 : c + 1));
+  const prev = () => setCurrent((c) => (c <= 0 ? maxIndex : c - 1));
+
+  useEffect(() => {
+    timerRef.current = setInterval(next, 2500);
+    return () => clearInterval(timerRef.current);
+  }, [visible]);
 
   const resetTimer = (fn) => {
     clearInterval(timerRef.current);
     fn();
-    timerRef.current = setInterval(next, 3000);
+    timerRef.current = setInterval(next, 2500);
   };
 
   return (
@@ -58,43 +74,41 @@ export default function Amenities() {
           from { transform: translate(0, 0) scale(1); }
           to { transform: translate(20px, -20px) scale(1.1); }
         }
-        .amenity-carousel-track {
-          display: flex;
-          transition: transform 0.5s ease;
-        }
-        .amenity-slide {
-          min-width: 100%;
-          display: flex;
-          gap: 24px;
-          justify-content: center;
-          flex-wrap: wrap;
-        }
       `}</style>
 
       <div className="container" style={{ position: 'relative', zIndex: 1 }}>
         <div className="section-head">
           <Reveal>
             <Eyebrow>What's included</Eyebrow>
-            <h2 style={{ color: 'white' }}>Everything you need. Nothing you don't.</h2>
+            <h2 style={{ color: 'white' }}>Everything you need.</h2>
+            <p className="lede" style={{ color: 'rgba(255,255,255,0.7)' }}>
+              Every Sri Krishna PG branch comes equipped with the essentials — and a few comforts
+              you didn't expect.
+            </p>
           </Reveal>
         </div>
 
         {/* Carousel */}
-        <div style={{ position: 'relative', overflow: 'hidden' }}>
-          <div
-            className="amenity-carousel-track"
-            style={{ transform: `translateX(-${current * 100}%)` }}
-          >
+        <div style={{ position: 'relative', overflow: 'hidden', padding: '0 48px' }}>
+          <div style={{
+            display: 'flex',
+            transition: 'transform 0.5s ease',
+            transform: `translateX(-${current * (100 / visible)}%)`,
+            gap: '0',
+          }}>
             {AMENITIES.map((a) => {
               const Icon = ICON_MAP[a.icon] || Star;
               return (
-                <div className="amenity-slide" key={a.title}>
+                <div key={a.title} style={{
+                  minWidth: `${100 / visible}%`,
+                  padding: '0 12px',
+                  boxSizing: 'border-box',
+                }}>
                   <div className="amenity-card" style={{
                     background: 'rgba(255,255,255,0.06)',
                     border: '1px solid rgba(255,255,255,0.12)',
                     backdropFilter: 'blur(12px)',
-                    maxWidth: '360px',
-                    width: '100%',
+                    height: '100%',
                   }}>
                     <div className="amenity-icon" style={{ background: 'var(--gold)', color: 'var(--navy-deep)' }}>
                       <Icon size={24} />
@@ -107,7 +121,6 @@ export default function Amenities() {
             })}
           </div>
 
-          {/* Prev / Next */}
           <button onClick={() => resetTimer(prev)} style={{
             position: 'absolute', left: 0, top: '50%', transform: 'translateY(-50%)',
             background: 'rgba(255,255,255,0.15)', border: 'none', borderRadius: '50%',
@@ -128,7 +141,7 @@ export default function Amenities() {
 
         {/* Dots */}
         <div style={{ display: 'flex', justifyContent: 'center', gap: '8px', marginTop: '24px' }}>
-          {AMENITIES.map((_, i) => (
+          {Array.from({ length: maxIndex + 1 }).map((_, i) => (
             <button key={i} onClick={() => resetTimer(() => setCurrent(i))} style={{
               width: i === current ? '24px' : '8px',
               height: '8px',
