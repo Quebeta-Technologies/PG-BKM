@@ -3,16 +3,16 @@ import Reveal from '../ui/Reveal.jsx';
 import Eyebrow from '../ui/Eyebrow.jsx';
 
 const POINTS = [
-  'Boys & Girls — separate floors',
+  'Boys & Girls PG',
   'Near Hinjewadi IT Park',
-  'Zero brokerage & hidden charges',
-  'Monthly, quarterly or yearly stays',
-  '4 furnished branches in Baner',
+  'Zero brokerage',
+  'No hidden charges',
+  '4 branches in Baner',
   'Veg & non-veg meals daily',
-  '24×7 CCTV & biometric security',
-  'High-speed Wi-Fi & power backup',
-  'AC & Non-AC rooms available',
-  'Daily housekeeping included',
+  '24×7 CCTV',
+  'High-speed Wi-Fi',
+  'AC & Non-AC rooms',
+  'Daily housekeeping',
 ];
 
 export default function About() {
