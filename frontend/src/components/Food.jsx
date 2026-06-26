@@ -34,8 +34,8 @@ export default function Food() {
 
         <Reveal>
           <Eyebrow centered={false}>Ghar ka khana</Eyebrow>
-          <h2 style={{ whiteSpace: 'nowrap' }}>Home-cooked meals, every single day.</h2>
-          <p style={{ color: 'var(--ink-muted)', fontSize: 17, whiteSpace: 'nowrap', marginTop: '8px' }}>
+          <h2>Home-cooked meals, every single day.</h2>
+          <p style={{ color: 'var(--ink-muted)', fontSize: 17, marginTop: '8px' }}>
             Our in-house kitchen serves fresh, hot meals — both veg and non-veg. No third-party tiffin.
           </p>
         </Reveal>
