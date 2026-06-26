@@ -13,12 +13,12 @@ const EMBED_URLS = [
   'https://maps.google.com/maps?q=18.5550,73.7672&z=16&output=embed',
 ];
 
+const total = Math.ceil(LOCATIONS.length / 2); // 2 pairs = 2 slides
+
 export default function Locations() {
   const [idx, setIdx] = useState(0);
   const [animating, setAnimating] = useState(false);
   const timerRef = useRef(null);
-
-  const total = LOCATIONS.length;
 
   const goNext = () => {
     if (animating) return;
@@ -34,8 +34,52 @@ export default function Locations() {
     return () => clearInterval(timerRef.current);
   }, [animating]);
 
-  const l = LOCATIONS[idx];
-  const i = idx;
+  const pair = [LOCATIONS[idx * 2], LOCATIONS[idx * 2 + 1]];
+
+  const renderCard = (l, i) => {
+    if (!l) return null;
+    return (
+      <div key={i} className="location-card-new" style={{ flex: 1 }}>
+        <div className="location-mini-map">
+          <iframe
+            title={l.name}
+            src={EMBED_URLS[i]}
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            style={{ width: '100%', height: '100%', border: 0, display: 'block', pointerEvents: 'none' }}
+          />
+          <a
+            href={l.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="location-map-overlay"
+            title="Open in Google Maps"
+          >
+            <div className="location-map-btn">
+              <Navigation size={14} /> Open in Maps
+            </div>
+          </a>
+        </div>
+
+        <div className="location-card-body">
+          <div className="location-num-badge">{String(i + 1).padStart(2, '0')}</div>
+          <div className="location-info">
+            <h3>{l.name}</h3>
+            <div className="location-meta">
+              <span>
+                <MapPin size={13} style={{ display: 'inline', verticalAlign: '-2px', marginRight: 4 }} />
+                {l.area}
+              </span>
+              <span className="tag">{l.tag}</span>
+            </div>
+            <a href={l.url} target="_blank" rel="noopener noreferrer" className="location-link">
+              <Navigation size={14} /> Get directions →
+            </a>
+          </div>
+        </div>
+      </div>
+    );
+  };
 
   return (
     <section className="section plain-bg" id="locations">
@@ -57,71 +101,15 @@ export default function Locations() {
             <div
               key={idx}
               style={{
+                display: 'flex',
+                gap: '20px',
                 animation: animating ? 'locExit 0.4s ease forwards' : 'locEnter 0.4s ease forwards',
-                maxWidth: '700px',
-                margin: '0 auto',
               }}
             >
-              <div className="location-card-new">
-                <div className="location-mini-map">
-                  <iframe
-                    title={l.name}
-                    src={EMBED_URLS[i]}
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                    style={{ width: '100%', height: '100%', border: 0, display: 'block', pointerEvents: 'none' }}
-                  />
-                  
-                  <a  href={l.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="location-map-overlay"
-                    title="Open in Google Maps"
-                  >
-                    <div className="location-map-btn">
-                      <Navigation size={14} /> Open in Maps
-                    </div>
-                  </a>
-                </div>
-
-                <div className="location-card-body">
-                  <div className="location-num-badge">{String(i + 1).padStart(2, '0')}</div>
-                  <div className="location-info">
-                    <h3>{l.name}</h3>
-                    <div className="location-meta">
-                      <span>
-                        <MapPin size={13} style={{ display: 'inline', verticalAlign: '-2px', marginRight: 4 }} />
-                        {l.area}
-                      </span>
-                      <span className="tag">{l.tag}</span>
-                    </div>
-                    <a href={l.url} target="_blank" rel="noopener noreferrer" className="location-link">
-                      <Navigation size={14} /> Get directions →
-                    </a>
-                  </div>
-                </div>
-              </div>
+              {pair.map((l, pi) => renderCard(l, idx * 2 + pi))}
             </div>
 
-            {/* Dots */}
-            <div style={{ display: 'flex', justifyContent: 'center', gap: '8px', marginTop: '24px' }}>
-              {LOCATIONS.map((_, di) => (
-                <button
-                  key={di}
-                  onClick={() => { clearInterval(timerRef.current); setIdx(di); }}
-                  style={{
-                    width: di === idx ? '28px' : '8px',
-                    height: '8px',
-                    borderRadius: '4px',
-                    background: di === idx ? 'var(--navy)' : 'rgba(26,45,110,0.2)',
-                    border: 'none',
-                    cursor: 'pointer',
-                    transition: 'all 0.3s',
-                    padding: 0,
-                  }}
-                />
-              ))}
-            </div>
+
           </div>
         </Reveal>
 
