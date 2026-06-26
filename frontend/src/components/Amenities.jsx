@@ -13,21 +13,23 @@ export default function Amenities() {
   const [offset, setOffset] = useState(0);
   const offsetRef = useRef(0);
   const rafRef = useRef(null);
-  const cardWidth = useRef(320);
+  const cardWidth = useRef(300);
+
+  const getCardWidth = () => {
+    if (window.innerWidth < 640) return Math.min(260, window.innerWidth - 60);
+    if (window.innerWidth < 1024) return 280;
+    return 300;
+  };
 
   useEffect(() => {
-    const updateCardWidth = () => {
-      if (window.innerWidth < 640) cardWidth.current = window.innerWidth - 48;
-      else if (window.innerWidth < 1024) cardWidth.current = 280;
-      else cardWidth.current = 320;
-    };
-    updateCardWidth();
-    window.addEventListener('resize', updateCardWidth);
-    return () => window.removeEventListener('resize', updateCardWidth);
+    cardWidth.current = getCardWidth();
+    const handleResize = () => { cardWidth.current = getCardWidth(); };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   useEffect(() => {
-    const gap = 24;
+    const gap = 20;
     const singleSetWidth = AMENITIES.length * (cardWidth.current + gap);
 
     const animate = () => {
@@ -83,30 +85,30 @@ export default function Amenities() {
           <Reveal>
             <Eyebrow>What's included</Eyebrow>
             <h2 style={{ color: 'white' }}>Everything you need.</h2>
-            <p className="lede" style={{ color: 'rgba(255,255,255,0.7)', whiteSpace: 'nowrap' }}>
+            <p className="lede" style={{ color: 'rgba(255,255,255,0.7)' }}>
               Every Sri Krishna PG branch comes equipped with the essentials — and a few comforts you didn't expect.
             </p>
           </Reveal>
         </div>
       </div>
 
-      {/* Infinite carousel — full width, no container */}
+      {/* Infinite carousel — full width */}
       <div style={{ overflow: 'hidden', position: 'relative', zIndex: 1 }}>
         <div
           ref={trackRef}
           style={{
             display: 'flex',
-            gap: '24px',
+            gap: '20px',
             transform: `translateX(-${offset}px)`,
             willChange: 'transform',
-            paddingLeft: '24px',
+            paddingLeft: '20px',
           }}
         >
           {DUPLICATED.map((a, i) => {
             const Icon = ICON_MAP[a.icon] || Star;
             return (
               <div key={i} style={{
-                minWidth: '300px',
+                minWidth: `${getCardWidth()}px`,
                 background: 'rgba(255,255,255,0.06)',
                 border: '1px solid rgba(255,255,255,0.12)',
                 backdropFilter: 'blur(12px)',
