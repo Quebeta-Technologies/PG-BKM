@@ -40,113 +40,101 @@ export default function Food() {
           </p>
         </Reveal>
 
-        <div className="food-grid" style={{ marginTop: '32px' }}>
+        <div className="food-grid" style={{ marginTop: '32px', alignItems: 'start' }}>
 
-          {/* LEFT — image carousel */}
+          {/* LEFT — image carousel, fixed height, no grow */}
           <Reveal>
-            <div className="food-img">
-              <div style={{ position: 'relative', overflow: 'hidden', borderRadius: '8px', aspectRatio: '4/3' }}>
-                {FOOD_IMAGES.map((src, i) => (
-                  <img
-                    key={i}
-                    src={src}
-                    alt="Home-cooked meals at Sri Krishna PG"
-                    style={{
-                      position: 'absolute',
-                      inset: 0,
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                      opacity: i === current ? 1 : 0,
-                      transition: 'opacity 0.8s ease',
-                    }}
-                  />
+            <div style={{ position: 'relative', overflow: 'hidden', borderRadius: '8px', aspectRatio: '4/3' }}>
+              {FOOD_IMAGES.map((src, i) => (
+                <img
+                  key={i}
+                  src={src}
+                  alt="Home-cooked meals at Sri Krishna PG"
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    opacity: i === current ? 1 : 0,
+                    transition: 'opacity 0.8s ease',
+                  }}
+                />
+              ))}
+              <div style={{ position: 'absolute', bottom: '12px', left: '50%', transform: 'translateX(-50%)', display: 'flex', gap: '6px' }}>
+                {FOOD_IMAGES.map((_, i) => (
+                  <div key={i} onClick={() => setCurrent(i)} style={{ width: i === current ? '20px' : '8px', height: '8px', borderRadius: '4px', background: i === current ? 'var(--gold)' : 'rgba(255,255,255,0.6)', cursor: 'pointer', transition: 'all 0.3s' }} />
                 ))}
-                <div style={{ position: 'absolute', bottom: '12px', left: '50%', transform: 'translateX(-50%)', display: 'flex', gap: '6px' }}>
-                  {FOOD_IMAGES.map((_, i) => (
-                    <div key={i} onClick={() => setCurrent(i)} style={{ width: i === current ? '20px' : '8px', height: '8px', borderRadius: '4px', background: i === current ? 'var(--gold)' : 'rgba(255,255,255,0.6)', cursor: 'pointer', transition: 'all 0.3s' }} />
-                  ))}
-                </div>
               </div>
             </div>
           </Reveal>
 
-          {/* RIGHT — accordion + highlights */}
+          {/* RIGHT — accordion, grows with content */}
           <Reveal delay={150}>
-            <div className="food-body">
-              <div className="food-meals" style={{ gap: '10px', display: 'flex', flexDirection: 'column' }}>
-                {sortedMeals.map((m) => {
-                  const Icon = ICON_MAP[m.icon] || Utensils;
-                  const isOpen = openMeal === m.name;
-                  return (
-                    <div
-                      key={m.name}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              {sortedMeals.map((m) => {
+                const Icon = ICON_MAP[m.icon] || Utensils;
+                const isOpen = openMeal === m.name;
+                return (
+                  <div
+                    key={m.name}
+                    style={{
+                      border: '1px solid rgba(26,45,110,0.12)',
+                      borderRadius: '12px',
+                      overflow: 'hidden',
+                      boxShadow: isOpen ? '0 4px 16px rgba(26,45,110,0.08)' : 'none',
+                    }}
+                  >
+                    <button
+                      onClick={() => setOpenMeal(isOpen ? null : m.name)}
                       style={{
-                        border: '1px solid rgba(26,45,110,0.12)',
-                        borderRadius: '12px',
-                        overflow: 'visible',
-                        boxShadow: isOpen ? '0 4px 16px rgba(26,45,110,0.08)' : 'none',
-                        position: 'relative',
+                        width: '100%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '12px',
+                        padding: '14px 16px',
+                        background: isOpen ? 'var(--navy)' : 'white',
+                        border: 'none',
+                        cursor: 'pointer',
+                        textAlign: 'left',
+                        transition: 'background 0.2s',
                       }}
                     >
-                      <button
-                        onClick={() => setOpenMeal(isOpen ? null : m.name)}
-                        style={{
-                          width: '100%',
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '12px',
-                          padding: '14px 16px',
-                          background: isOpen ? 'var(--navy)' : 'white',
-                          border: 'none',
-                          borderRadius: '12px',
-                          cursor: 'pointer',
-                          textAlign: 'left',
-                          transition: 'background 0.2s',
-                        }}
-                      >
-                        <div style={{
-                          width: '36px', height: '36px', borderRadius: '10px',
-                          background: 'var(--gold)', color: 'var(--navy-deep)',
-                          display: 'flex', alignItems: 'center', justifyContent: 'center',
-                          flexShrink: 0,
-                        }}>
-                          <Icon size={18} />
-                        </div>
-                        <span style={{ fontWeight: 600, fontSize: 16, color: isOpen ? 'white' : 'var(--navy)', flex: 1 }}>
-                          {m.name}
-                        </span>
-                        <ChevronDown size={18} style={{ color: isOpen ? 'white' : 'var(--ink-muted)', transform: isOpen ? 'rotate(180deg)' : 'rotate(0)', transition: 'transform 0.3s' }} />
-                      </button>
+                      <div style={{
+                        width: '36px', height: '36px', borderRadius: '10px',
+                        background: 'var(--gold)', color: 'var(--navy-deep)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        flexShrink: 0,
+                      }}>
+                        <Icon size={18} />
+                      </div>
+                      <span style={{ fontWeight: 600, fontSize: 16, color: isOpen ? 'white' : 'var(--navy)', flex: 1 }}>
+                        {m.name}
+                      </span>
+                      <ChevronDown size={18} style={{ color: isOpen ? 'white' : 'var(--ink-muted)', transform: isOpen ? 'rotate(180deg)' : 'rotate(0)', transition: 'transform 0.3s' }} />
+                    </button>
 
-                      {isOpen && (
-                        <div style={{
-                          position: 'absolute',
-                          top: '100%',
-                          left: 0,
-                          right: 0,
-                          zIndex: 10,
-                          background: '#f8f9fc',
-                          border: '1px solid rgba(26,45,110,0.12)',
-                          borderTop: 'none',
-                          borderRadius: '0 0 12px 12px',
-                          padding: '14px 16px',
-                          boxShadow: '0 8px 24px rgba(26,45,110,0.10)',
-                        }}>
-                          <p style={{ margin: '0 0 6px', color: 'var(--teal)', fontWeight: 600, fontSize: 13 }}>{m.time}</p>
-                          <p style={{ margin: 0, color: 'var(--ink-muted)', fontSize: 14, lineHeight: 1.6 }}>{m.items}</p>
-                        </div>
-                      )}
+                    {/* In-flow content — expands the card, doesn't affect left column */}
+                    <div style={{
+                      maxHeight: isOpen ? '300px' : '0',
+                      overflow: 'hidden',
+                      transition: 'max-height 0.35s ease',
+                      background: '#f8f9fc',
+                    }}>
+                      <div style={{ padding: '14px 16px' }}>
+                        <p style={{ margin: '0 0 6px', color: 'var(--teal)', fontWeight: 600, fontSize: 13 }}>{m.time}</p>
+                        <p style={{ margin: 0, color: 'var(--ink-muted)', fontSize: 14, lineHeight: 1.6 }}>{m.items}</p>
+                      </div>
                     </div>
-                  );
-                })}
-              </div>
+                  </div>
+                );
+              })}
 
-              <div className="food-highlights" style={{ marginTop: '20px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px 16px', marginTop: '10px' }}>
                 {FOOD.highlights.map((h) => (
-                  <div className="food-highlight" key={h} style={{ whiteSpace: 'nowrap' }}>
-                    <CheckCircle2 size={16} />
-                    <span>{h}</span>
+                  <div key={h} style={{ display: 'flex', alignItems: 'center', gap: '8px', whiteSpace: 'nowrap' }}>
+                    <CheckCircle2 size={16} style={{ color: 'var(--teal)', flexShrink: 0 }} />
+                    <span style={{ fontSize: 14, color: 'var(--ink-muted)' }}>{h}</span>
                   </div>
                 ))}
               </div>
