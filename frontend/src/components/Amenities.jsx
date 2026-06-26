@@ -1,4 +1,5 @@
-import { Utensils, Wifi, ShieldCheck, Snowflake, Droplets, Zap, Shirt, Coffee, Star } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { Utensils, Wifi, ShieldCheck, Snowflake, Droplets, Zap, Shirt, Coffee, Star, ChevronLeft, ChevronRight } from 'lucide-react';
 import Reveal from '../ui/Reveal.jsx';
 import Eyebrow from '../ui/Eyebrow.jsx';
 import { AMENITIES } from '../data.js';
@@ -6,6 +7,25 @@ import { AMENITIES } from '../data.js';
 const ICON_MAP = { Utensils, Wifi, ShieldCheck, Snowflake, Droplets, Zap, Shirt, Coffee };
 
 export default function Amenities() {
+  const [current, setCurrent] = useState(0);
+  const timerRef = useRef(null);
+
+  const total = AMENITIES.length;
+
+  const next = () => setCurrent((c) => (c + 1) % total);
+  const prev = () => setCurrent((c) => (c - 1 + total) % total);
+
+  useEffect(() => {
+    timerRef.current = setInterval(next, 3000);
+    return () => clearInterval(timerRef.current);
+  }, []);
+
+  const resetTimer = (fn) => {
+    clearInterval(timerRef.current);
+    fn();
+    timerRef.current = setInterval(next, 3000);
+  };
+
   return (
     <section
       className="section"
@@ -38,6 +58,17 @@ export default function Amenities() {
           from { transform: translate(0, 0) scale(1); }
           to { transform: translate(20px, -20px) scale(1.1); }
         }
+        .amenity-carousel-track {
+          display: flex;
+          transition: transform 0.5s ease;
+        }
+        .amenity-slide {
+          min-width: 100%;
+          display: flex;
+          gap: 24px;
+          justify-content: center;
+          flex-wrap: wrap;
+        }
       `}</style>
 
       <div className="container" style={{ position: 'relative', zIndex: 1 }}>
@@ -45,32 +76,69 @@ export default function Amenities() {
           <Reveal>
             <Eyebrow>What's included</Eyebrow>
             <h2 style={{ color: 'white' }}>Everything you need. Nothing you don't.</h2>
-            <p className="lede" style={{ color: 'rgba(255,255,255,0.7)' }}>
-              Every Sri Krishna PG branch comes equipped with the essentials — and a few comforts
-              you didn't expect.
-            </p>
           </Reveal>
         </div>
 
-        <div className="amenities-grid">
-          {AMENITIES.map((a, i) => {
-            const Icon = ICON_MAP[a.icon] || Star;
-            return (
-              <Reveal key={a.title} delay={i * 70}>
-                <div className="amenity-card" style={{
-                  background: 'rgba(255,255,255,0.06)',
-                  border: '1px solid rgba(255,255,255,0.12)',
-                  backdropFilter: 'blur(12px)',
-                }}>
-                  <div className="amenity-icon" style={{ background: 'var(--gold)', color: 'var(--navy-deep)' }}>
-                    <Icon size={24} />
+        {/* Carousel */}
+        <div style={{ position: 'relative', overflow: 'hidden' }}>
+          <div
+            className="amenity-carousel-track"
+            style={{ transform: `translateX(-${current * 100}%)` }}
+          >
+            {AMENITIES.map((a) => {
+              const Icon = ICON_MAP[a.icon] || Star;
+              return (
+                <div className="amenity-slide" key={a.title}>
+                  <div className="amenity-card" style={{
+                    background: 'rgba(255,255,255,0.06)',
+                    border: '1px solid rgba(255,255,255,0.12)',
+                    backdropFilter: 'blur(12px)',
+                    maxWidth: '360px',
+                    width: '100%',
+                  }}>
+                    <div className="amenity-icon" style={{ background: 'var(--gold)', color: 'var(--navy-deep)' }}>
+                      <Icon size={24} />
+                    </div>
+                    <h3 style={{ color: 'white' }}>{a.title}</h3>
+                    <p style={{ color: 'rgba(255,255,255,0.65)' }}>{a.desc}</p>
                   </div>
-                  <h3 style={{ color: 'white' }}>{a.title}</h3>
-                  <p style={{ color: 'rgba(255,255,255,0.65)' }}>{a.desc}</p>
                 </div>
-              </Reveal>
-            );
-          })}
+              );
+            })}
+          </div>
+
+          {/* Prev / Next */}
+          <button onClick={() => resetTimer(prev)} style={{
+            position: 'absolute', left: 0, top: '50%', transform: 'translateY(-50%)',
+            background: 'rgba(255,255,255,0.15)', border: 'none', borderRadius: '50%',
+            width: '40px', height: '40px', cursor: 'pointer', color: 'white',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+          }}>
+            <ChevronLeft size={20} />
+          </button>
+          <button onClick={() => resetTimer(next)} style={{
+            position: 'absolute', right: 0, top: '50%', transform: 'translateY(-50%)',
+            background: 'rgba(255,255,255,0.15)', border: 'none', borderRadius: '50%',
+            width: '40px', height: '40px', cursor: 'pointer', color: 'white',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+          }}>
+            <ChevronRight size={20} />
+          </button>
+        </div>
+
+        {/* Dots */}
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '8px', marginTop: '24px' }}>
+          {AMENITIES.map((_, i) => (
+            <button key={i} onClick={() => resetTimer(() => setCurrent(i))} style={{
+              width: i === current ? '24px' : '8px',
+              height: '8px',
+              borderRadius: '4px',
+              background: i === current ? 'var(--gold)' : 'rgba(255,255,255,0.3)',
+              border: 'none', cursor: 'pointer',
+              transition: 'all 0.3s ease',
+              padding: 0,
+            }} />
+          ))}
         </div>
       </div>
     </section>
