@@ -92,7 +92,7 @@ export default function HowItWorks() {
   const [activeStep, setActiveStep] = useState(null);
 
   return (
-    <section className="section grid-bg" id="how">
+    <section className="section grid-bg" id="how-it-works">
       <div className="container">
         <div className="section-head">
           <Eyebrow centered>From visit to move-in</Eyebrow>
