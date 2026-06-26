@@ -750,3 +750,23 @@ img { display: block; max-width: 100%; }
 * {
   font-family: 'Montserrat', sans-serif !important;
 }
+
+.room-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: var(--navy);
+  color: #fff;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+
+.room-cta-btn:hover {
+  background-color: var(--gold);
+  color: #fff;
+}

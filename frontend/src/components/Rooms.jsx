@@ -1,7 +1,7 @@
-import { User, Users, Users2, CheckCircle2 } from 'lucide-react';
+import { User, Users, Users2, CheckCircle2, Phone } from 'lucide-react';
 import Reveal from '../ui/Reveal.jsx';
 import Eyebrow from '../ui/Eyebrow.jsx';
-import { ROOMS } from '../data.js';
+import { ROOMS, CONTACT } from '../data.js';
 
 const ROOM_ICONS = [User, Users, Users2];
 
@@ -37,6 +37,10 @@ export default function Rooms() {
                       </div>
                     ))}
                   </div>
+                  <a href={CONTACT.phoneTel} className="room-cta-btn">
+                    <Phone size={15} />
+                    Book a Visit
+                  </a>
                 </div>
               </Reveal>
             );
