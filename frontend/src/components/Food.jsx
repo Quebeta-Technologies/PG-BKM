@@ -32,7 +32,6 @@ export default function Food() {
     <section className="section plain-bg" id="food">
       <div className="container">
 
-        {/* Eyebrow + heading + description — full width left */}
         <Reveal>
           <Eyebrow centered={false}>Ghar ka khana</Eyebrow>
           <h2 style={{ whiteSpace: 'nowrap' }}>Home-cooked meals, every single day.</h2>
@@ -43,7 +42,7 @@ export default function Food() {
 
         <div className="food-grid" style={{ marginTop: '32px' }}>
 
-          {/* LEFT — image carousel (original size) */}
+          {/* LEFT — image carousel */}
           <Reveal>
             <div className="food-img">
               <div style={{ position: 'relative', overflow: 'hidden', borderRadius: '8px', aspectRatio: '4/3' }}>
@@ -85,8 +84,9 @@ export default function Food() {
                       style={{
                         border: '1px solid rgba(26,45,110,0.12)',
                         borderRadius: '12px',
-                        overflow: 'hidden',
+                        overflow: 'visible',
                         boxShadow: isOpen ? '0 4px 16px rgba(26,45,110,0.08)' : 'none',
+                        position: 'relative',
                       }}
                     >
                       <button
@@ -99,6 +99,7 @@ export default function Food() {
                           padding: '14px 16px',
                           background: isOpen ? 'var(--navy)' : 'white',
                           border: 'none',
+                          borderRadius: '12px',
                           cursor: 'pointer',
                           textAlign: 'left',
                           transition: 'background 0.2s',
@@ -117,12 +118,25 @@ export default function Food() {
                         </span>
                         <ChevronDown size={18} style={{ color: isOpen ? 'white' : 'var(--ink-muted)', transform: isOpen ? 'rotate(180deg)' : 'rotate(0)', transition: 'transform 0.3s' }} />
                       </button>
-                      <div style={{ maxHeight: isOpen ? '200px' : '0', overflow: 'hidden', transition: 'max-height 0.35s ease' }}>
-                        <div style={{ padding: '14px 16px', background: '#f8f9fc' }}>
+
+                      {isOpen && (
+                        <div style={{
+                          position: 'absolute',
+                          top: '100%',
+                          left: 0,
+                          right: 0,
+                          zIndex: 10,
+                          background: '#f8f9fc',
+                          border: '1px solid rgba(26,45,110,0.12)',
+                          borderTop: 'none',
+                          borderRadius: '0 0 12px 12px',
+                          padding: '14px 16px',
+                          boxShadow: '0 8px 24px rgba(26,45,110,0.10)',
+                        }}>
                           <p style={{ margin: '0 0 6px', color: 'var(--teal)', fontWeight: 600, fontSize: 13 }}>{m.time}</p>
                           <p style={{ margin: 0, color: 'var(--ink-muted)', fontSize: 14, lineHeight: 1.6 }}>{m.items}</p>
                         </div>
-                      </div>
+                      )}
                     </div>
                   );
                 })}
