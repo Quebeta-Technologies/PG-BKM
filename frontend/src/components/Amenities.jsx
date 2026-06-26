@@ -1,46 +1,47 @@
 import { useState, useEffect, useRef } from 'react';
-import { Utensils, Wifi, ShieldCheck, Snowflake, Droplets, Zap, Shirt, Coffee, Star, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Utensils, Wifi, ShieldCheck, Snowflake, Droplets, Zap, Shirt, Coffee, Star } from 'lucide-react';
 import Reveal from '../ui/Reveal.jsx';
 import Eyebrow from '../ui/Eyebrow.jsx';
 import { AMENITIES } from '../data.js';
 
 const ICON_MAP = { Utensils, Wifi, ShieldCheck, Snowflake, Droplets, Zap, Shirt, Coffee };
 
+const DUPLICATED = [...AMENITIES, ...AMENITIES, ...AMENITIES];
+
 export default function Amenities() {
-  const [current, setCurrent] = useState(0);
-  const timerRef = useRef(null);
-  const total = AMENITIES.length;
-
-  const getVisible = () => {
-    if (typeof window !== 'undefined' && window.innerWidth < 640) return 1;
-    if (typeof window !== 'undefined' && window.innerWidth < 1024) return 2;
-    return 3;
-  };
-
-  const [visible, setVisible] = useState(3);
+  const trackRef = useRef(null);
+  const [offset, setOffset] = useState(0);
+  const offsetRef = useRef(0);
+  const rafRef = useRef(null);
+  const cardWidth = useRef(320);
 
   useEffect(() => {
-    const handleResize = () => setVisible(getVisible());
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    const updateCardWidth = () => {
+      if (window.innerWidth < 640) cardWidth.current = window.innerWidth - 48;
+      else if (window.innerWidth < 1024) cardWidth.current = 280;
+      else cardWidth.current = 320;
+    };
+    updateCardWidth();
+    window.addEventListener('resize', updateCardWidth);
+    return () => window.removeEventListener('resize', updateCardWidth);
   }, []);
 
-  const maxIndex = total - visible;
-
-  const next = () => setCurrent((c) => (c >= maxIndex ? 0 : c + 1));
-  const prev = () => setCurrent((c) => (c <= 0 ? maxIndex : c - 1));
-
   useEffect(() => {
-    timerRef.current = setInterval(next, 2500);
-    return () => clearInterval(timerRef.current);
-  }, [visible]);
+    const gap = 24;
+    const singleSetWidth = AMENITIES.length * (cardWidth.current + gap);
 
-  const resetTimer = (fn) => {
-    clearInterval(timerRef.current);
-    fn();
-    timerRef.current = setInterval(next, 2500);
-  };
+    const animate = () => {
+      offsetRef.current += 0.5;
+      if (offsetRef.current >= singleSetWidth) {
+        offsetRef.current -= singleSetWidth;
+      }
+      setOffset(offsetRef.current);
+      rafRef.current = requestAnimationFrame(animate);
+    };
+
+    rafRef.current = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(rafRef.current);
+  }, []);
 
   return (
     <section
@@ -50,6 +51,7 @@ export default function Amenities() {
         position: 'relative',
         overflow: 'hidden',
         background: 'linear-gradient(135deg, #0E1F50 0%, #1A2D6E 50%, #0F8B8D 100%)',
+        padding: '40px 0',
       }}
     >
       {/* Animated background blobs */}
@@ -77,7 +79,7 @@ export default function Amenities() {
       `}</style>
 
       <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-        <div className="section-head">
+        <div className="section-head" style={{ marginBottom: '32px' }}>
           <Reveal>
             <Eyebrow>What's included</Eyebrow>
             <h2 style={{ color: 'white' }}>Everything you need.</h2>
@@ -87,71 +89,40 @@ export default function Amenities() {
             </p>
           </Reveal>
         </div>
+      </div>
 
-        {/* Carousel */}
-        <div style={{ position: 'relative', overflow: 'hidden', padding: '0 48px' }}>
-          <div style={{
+      {/* Infinite carousel — full width, no container */}
+      <div style={{ overflow: 'hidden', position: 'relative', zIndex: 1 }}>
+        <div
+          ref={trackRef}
+          style={{
             display: 'flex',
-            transition: 'transform 0.5s ease',
-            transform: `translateX(-${current * (100 / visible)}%)`,
-            gap: '0',
-          }}>
-            {AMENITIES.map((a) => {
-              const Icon = ICON_MAP[a.icon] || Star;
-              return (
-                <div key={a.title} style={{
-                  minWidth: `${100 / visible}%`,
-                  padding: '0 12px',
-                  boxSizing: 'border-box',
-                }}>
-                  <div className="amenity-card" style={{
-                    background: 'rgba(255,255,255,0.06)',
-                    border: '1px solid rgba(255,255,255,0.12)',
-                    backdropFilter: 'blur(12px)',
-                    height: '100%',
-                  }}>
-                    <div className="amenity-icon" style={{ background: 'var(--gold)', color: 'var(--navy-deep)' }}>
-                      <Icon size={24} />
-                    </div>
-                    <h3 style={{ color: 'white' }}>{a.title}</h3>
-                    <p style={{ color: 'rgba(255,255,255,0.65)' }}>{a.desc}</p>
-                  </div>
+            gap: '24px',
+            transform: `translateX(-${offset}px)`,
+            willChange: 'transform',
+            paddingLeft: '24px',
+          }}
+        >
+          {DUPLICATED.map((a, i) => {
+            const Icon = ICON_MAP[a.icon] || Star;
+            return (
+              <div key={i} style={{
+                minWidth: '300px',
+                background: 'rgba(255,255,255,0.06)',
+                border: '1px solid rgba(255,255,255,0.12)',
+                backdropFilter: 'blur(12px)',
+                borderRadius: '16px',
+                padding: '28px 24px',
+                flexShrink: 0,
+              }}>
+                <div className="amenity-icon" style={{ background: 'var(--gold)', color: 'var(--navy-deep)', marginBottom: '16px' }}>
+                  <Icon size={24} />
                 </div>
-              );
-            })}
-          </div>
-
-          <button onClick={() => resetTimer(prev)} style={{
-            position: 'absolute', left: 0, top: '50%', transform: 'translateY(-50%)',
-            background: 'rgba(255,255,255,0.15)', border: 'none', borderRadius: '50%',
-            width: '40px', height: '40px', cursor: 'pointer', color: 'white',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-          }}>
-            <ChevronLeft size={20} />
-          </button>
-          <button onClick={() => resetTimer(next)} style={{
-            position: 'absolute', right: 0, top: '50%', transform: 'translateY(-50%)',
-            background: 'rgba(255,255,255,0.15)', border: 'none', borderRadius: '50%',
-            width: '40px', height: '40px', cursor: 'pointer', color: 'white',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-          }}>
-            <ChevronRight size={20} />
-          </button>
-        </div>
-
-        {/* Dots */}
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '8px', marginTop: '24px' }}>
-          {Array.from({ length: maxIndex + 1 }).map((_, i) => (
-            <button key={i} onClick={() => resetTimer(() => setCurrent(i))} style={{
-              width: i === current ? '24px' : '8px',
-              height: '8px',
-              borderRadius: '4px',
-              background: i === current ? 'var(--gold)' : 'rgba(255,255,255,0.3)',
-              border: 'none', cursor: 'pointer',
-              transition: 'all 0.3s ease',
-              padding: 0,
-            }} />
-          ))}
+                <h3 style={{ color: 'white', marginBottom: '8px' }}>{a.title}</h3>
+                <p style={{ color: 'rgba(255,255,255,0.65)', margin: 0 }}>{a.desc}</p>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
