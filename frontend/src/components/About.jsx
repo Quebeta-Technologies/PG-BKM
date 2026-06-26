@@ -3,10 +3,16 @@ import Reveal from '../ui/Reveal.jsx';
 import Eyebrow from '../ui/Eyebrow.jsx';
 
 const POINTS = [
-  'Boys & Girls PG in Baner, Pune — separate dedicated floors',
-  'Walking distance from Hinjewadi IT Park, malls & bus stops',
-  'No brokerage. No hidden charges. Transparent monthly rent.',
-  'Flexible stays — monthly, quarterly, or yearly contracts',
+  'Boys & Girls PG — separate dedicated floors',
+  'Walking distance from Hinjewadi IT Park',
+  'No brokerage & no hidden charges',
+  'Flexible monthly, quarterly or yearly stays',
+  '4 fully-furnished branches in Baner',
+  'Home-cooked veg & non-veg meals daily',
+  '24×7 CCTV security & biometric entry',
+  'High-speed Wi-Fi & power backup',
+  'AC & Non-AC rooms available',
+  'Daily housekeeping included',
 ];
 
 export default function About() {
@@ -34,12 +40,7 @@ export default function About() {
                 fully-furnished PG branches near Hinjewadi IT Park, we offer single, double and triple
                 sharing rooms with home-cooked meals and 24/7 security.
               </p>
-              <p>
-                Looking for a PG in Baner near Hinjewadi, Balewadi, or Aundh? Sri Krishna PG offers
-                affordable, all-inclusive monthly rent with no brokerage and no hidden charges — just a
-                safe, comfortable home in Pune.
-              </p>
-              <div className="welcome-points">
+              <div className="welcome-points" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px 24px' }}>
                 {POINTS.map((p) => (
                   <div className="welcome-point" key={p}>
                     <CheckCircle2 size={20} />
