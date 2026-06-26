@@ -13,7 +13,6 @@ const FOOD_IMAGES = [
   'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?auto=format&fit=crop&w=900&q=80',
 ];
 
-// Reordered: Breakfast → Lunch → Dinner
 const ORDERED_MEALS = ['Breakfast', 'Lunch', 'Dinner'];
 
 export default function Food() {
@@ -32,19 +31,50 @@ export default function Food() {
   return (
     <section className="section plain-bg" id="food">
       <div className="container">
-        <div className="food-grid">
 
-          {/* LEFT — text + accordion */}
+        {/* Eyebrow + heading — full width, left aligned */}
+        <Reveal>
+          <Eyebrow centered={false}>Ghar ka khana</Eyebrow>
+          <h2 style={{ whiteSpace: 'nowrap' }}>Home-cooked meals, every single day.</h2>
+        </Reveal>
+
+        <div className="food-grid" style={{ marginTop: '32px' }}>
+
+          {/* LEFT — image carousel */}
           <Reveal>
+            <div className="food-img" style={{ position: 'relative', overflow: 'hidden', borderRadius: '8px', aspectRatio: '4/3' }}>
+              {FOOD_IMAGES.map((src, i) => (
+                <img
+                  key={i}
+                  src={src}
+                  alt="Home-cooked meals at Sri Krishna PG"
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    opacity: i === current ? 1 : 0,
+                    transition: 'opacity 0.8s ease',
+                  }}
+                />
+              ))}
+              <div style={{ position: 'absolute', bottom: '12px', left: '50%', transform: 'translateX(-50%)', display: 'flex', gap: '6px' }}>
+                {FOOD_IMAGES.map((_, i) => (
+                  <div key={i} onClick={() => setCurrent(i)} style={{ width: i === current ? '20px' : '8px', height: '8px', borderRadius: '4px', background: i === current ? 'var(--gold)' : 'rgba(255,255,255,0.6)', cursor: 'pointer', transition: 'all 0.3s' }} />
+                ))}
+              </div>
+            </div>
+          </Reveal>
+
+          {/* RIGHT — description + accordion */}
+          <Reveal delay={150}>
             <div className="food-body">
-              <Eyebrow centered={false}>Ghar ka khana</Eyebrow>
-              <h2>Home-cooked meals, every single day.</h2>
               <p style={{ color: 'var(--ink-muted)', fontSize: 17 }}>
                 Our in-house kitchen serves fresh, hot meals — both vegetarian and non-vegetarian.
                 No third-party tiffin, no shortcuts. Breakfast & Dinner daily. Lunch available on weekends.
               </p>
 
-              {/* Accordion meals */}
               <div className="food-meals" style={{ gap: '10px', display: 'flex', flexDirection: 'column' }}>
                 {sortedMeals.map((m) => {
                   const Icon = ICON_MAP[m.icon] || Utensils;
@@ -56,11 +86,9 @@ export default function Food() {
                         border: '1px solid rgba(26,45,110,0.12)',
                         borderRadius: '12px',
                         overflow: 'hidden',
-                        transition: 'box-shadow 0.2s',
                         boxShadow: isOpen ? '0 4px 16px rgba(26,45,110,0.08)' : 'none',
                       }}
                     >
-                      {/* Header — always visible */}
                       <button
                         onClick={() => setOpenMeal(isOpen ? null : m.name)}
                         style={{
@@ -84,36 +112,15 @@ export default function Food() {
                         }}>
                           <Icon size={18} />
                         </div>
-                        <span style={{
-                          fontWeight: 600, fontSize: 16,
-                          color: isOpen ? 'white' : 'var(--navy)',
-                          flex: 1,
-                        }}>
+                        <span style={{ fontWeight: 600, fontSize: 16, color: isOpen ? 'white' : 'var(--navy)', flex: 1 }}>
                           {m.name}
                         </span>
-                        <ChevronDown
-                          size={18}
-                          style={{
-                            color: isOpen ? 'white' : 'var(--ink-muted)',
-                            transform: isOpen ? 'rotate(180deg)' : 'rotate(0)',
-                            transition: 'transform 0.3s',
-                          }}
-                        />
+                        <ChevronDown size={18} style={{ color: isOpen ? 'white' : 'var(--ink-muted)', transform: isOpen ? 'rotate(180deg)' : 'rotate(0)', transition: 'transform 0.3s' }} />
                       </button>
-
-                      {/* Expandable content */}
-                      <div style={{
-                        maxHeight: isOpen ? '200px' : '0',
-                        overflow: 'hidden',
-                        transition: 'max-height 0.35s ease',
-                      }}>
+                      <div style={{ maxHeight: isOpen ? '200px' : '0', overflow: 'hidden', transition: 'max-height 0.35s ease' }}>
                         <div style={{ padding: '14px 16px', background: '#f8f9fc' }}>
-                          <p style={{ margin: '0 0 6px', color: 'var(--teal)', fontWeight: 600, fontSize: 13 }}>
-                            {m.time}
-                          </p>
-                          <p style={{ margin: 0, color: 'var(--ink-muted)', fontSize: 14, lineHeight: 1.6 }}>
-                            {m.items}
-                          </p>
+                          <p style={{ margin: '0 0 6px', color: 'var(--teal)', fontWeight: 600, fontSize: 13 }}>{m.time}</p>
+                          <p style={{ margin: 0, color: 'var(--ink-muted)', fontSize: 14, lineHeight: 1.6 }}>{m.items}</p>
                         </div>
                       </div>
                     </div>
@@ -127,33 +134,6 @@ export default function Food() {
                     <CheckCircle2 size={16} />
                     <span>{h}</span>
                   </div>
-                ))}
-              </div>
-            </div>
-          </Reveal>
-
-          {/* RIGHT — image carousel */}
-          <Reveal delay={150}>
-            <div className="food-img" style={{ position: 'relative', overflow: 'hidden', borderRadius: '8px', aspectRatio: '4/3' }}>
-              {FOOD_IMAGES.map((src, i) => (
-                <img
-                  key={i}
-                  src={src}
-                  alt="Home-cooked meals at Sri Krishna PG"
-                  style={{
-                    position: 'absolute',
-                    inset: 0,
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                    opacity: i === current ? 1 : 0,
-                    transition: 'opacity 0.8s ease',
-                  }}
-                />
-              ))}
-              <div style={{ position: 'absolute', bottom: '12px', left: '50%', transform: 'translateX(-50%)', display: 'flex', gap: '6px' }}>
-                {FOOD_IMAGES.map((_, i) => (
-                  <div key={i} onClick={() => setCurrent(i)} style={{ width: i === current ? '20px' : '8px', height: '8px', borderRadius: '4px', background: i === current ? 'var(--gold)' : 'rgba(255,255,255,0.6)', cursor: 'pointer', transition: 'all 0.3s' }} />
                 ))}
               </div>
             </div>
