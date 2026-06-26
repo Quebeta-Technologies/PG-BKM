@@ -24,7 +24,7 @@ export default function About() {
             <div className="welcome-img-wrap">
               <div className="welcome-img">
                 <img
-                  src="frontend/public/images/about.png"
+                  src="/public/images/about.png"
                   alt="Sri Krishna PG furnished room in Baner Pune"
                 />
               </div>
