@@ -72,7 +72,7 @@ export default function Locations() {
                     style={{ width: '100%', height: '100%', border: 0, display: 'block', pointerEvents: 'none' }}
                   />
                   
-                    href={l.url}
+                  <a  href={l.url}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="location-map-overlay"
