@@ -32,7 +32,7 @@ export default function Food() {
     <section className="section plain-bg" id="food">
       <div className="container">
 
-        {/* Eyebrow + heading — full width, left aligned */}
+        {/* Eyebrow + heading — full width, no wrap */}
         <Reveal>
           <Eyebrow centered={false}>Ghar ka khana</Eyebrow>
           <h2 style={{ whiteSpace: 'nowrap' }}>Home-cooked meals, every single day.</h2>
@@ -70,9 +70,8 @@ export default function Food() {
           {/* RIGHT — description + accordion */}
           <Reveal delay={150}>
             <div className="food-body">
-              <p style={{ color: 'var(--ink-muted)', fontSize: 17 }}>
-                Our in-house kitchen serves fresh, hot meals — both vegetarian and non-vegetarian.
-                No third-party tiffin, no shortcuts. Breakfast & Dinner daily. Lunch available on weekends.
+              <p style={{ color: 'var(--ink-muted)', fontSize: 17, whiteSpace: 'nowrap' }}>
+                Our in-house kitchen serves fresh, hot meals — both veg and non-veg. No third-party tiffin.
               </p>
 
               <div className="food-meals" style={{ gap: '10px', display: 'flex', flexDirection: 'column' }}>
@@ -130,7 +129,7 @@ export default function Food() {
 
               <div className="food-highlights" style={{ marginTop: '20px' }}>
                 {FOOD.highlights.map((h) => (
-                  <div className="food-highlight" key={h}>
+                  <div className="food-highlight" key={h} style={{ whiteSpace: 'nowrap' }}>
                     <CheckCircle2 size={16} />
                     <span>{h}</span>
                   </div>
