@@ -1,7 +1,7 @@
-import { User, Users, Users2, CheckCircle2, Phone } from 'lucide-react';
+import { User, Users, Users2, CheckCircle2 } from 'lucide-react';
 import Reveal from '../ui/Reveal.jsx';
 import Eyebrow from '../ui/Eyebrow.jsx';
-import { ROOMS, CONTACT } from '../data.js';
+import { ROOMS } from '../data.js';
 
 const ROOM_ICONS = [User, Users, Users2];
 
@@ -25,7 +25,7 @@ export default function Rooms() {
             const Icon = ROOM_ICONS[i];
             return (
               <Reveal key={r.type} delay={i * 100}>
-                <div className="room-card" style={{ display: 'flex', flexDirection: 'column' }}>
+                <div className="room-card">
                   <Icon size={32} className="room-icon" />
                   <h3>{r.type}</h3>
                   <p className="room-desc">{r.desc}</p>
@@ -37,13 +37,6 @@ export default function Rooms() {
                       </div>
                     ))}
                   </div>
-                  
-                    href={CONTACT.phoneTel}
-                    className="btn btn-primary"
-                    style={{ marginTop: 'auto', paddingTop: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
-                  >
-                    <Phone size={16} /> Book a Visit
-                  </a>
                 </div>
               </Reveal>
             );
