@@ -769,3 +769,8 @@ img { display: block; max-width: 100%; }
   background-color: var(--gold);
   color: #fff;
 }
+
+.room-card:hover .room-cta-btn {
+  background-color: var(--gold);
+  color: var(--navy-deep);
+}
