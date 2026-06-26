@@ -83,10 +83,10 @@ export const FOOD = {
     { name: 'Lunch', time: '12:30 – 2:30 PM (Sat & Sun only)', items: 'Dal, sabzi, chapati, rice, non-veg curry, salad, pickle & buttermilk', icon: 'Sun' },
   ],
   highlights: [
-    'Both veg & non-veg options available',
-    'In-house chef — no third-party tiffin',
-    'Weekly menu rotation, no repetition',
-    'Special meals on festivals & birthdays',
+    'Both veg & non-veg',
+    'In-house chef',
+    'Weekly menu rotation',
+    'Special meals on festivals',
   ],
   image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=1200&q=80',
 };
