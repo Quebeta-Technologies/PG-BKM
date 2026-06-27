@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { CheckCircle2, Sunrise, Sun, Moon, Utensils, ChevronDown } from 'lucide-react';
 import Reveal from '../ui/Reveal.jsx';
 import Eyebrow from '../ui/Eyebrow.jsx';
@@ -18,11 +18,56 @@ const ORDERED_MEALS = ['Breakfast', 'Lunch', 'Dinner'];
 export default function Food() {
   const [current, setCurrent] = useState(0);
   const [openMeal, setOpenMeal] = useState(null);
+  const timerRef = useRef(null);
+  const dragStartX = useRef(null);
+  const isDragging = useRef(false);
+
+  const resetTimer = () => {
+    clearInterval(timerRef.current);
+    timerRef.current = setInterval(() => setCurrent((s) => (s + 1) % FOOD_IMAGES.length), 3000);
+  };
 
   useEffect(() => {
-    const t = setInterval(() => setCurrent((s) => (s + 1) % FOOD_IMAGES.length), 3000);
-    return () => clearInterval(t);
+    timerRef.current = setInterval(() => setCurrent((s) => (s + 1) % FOOD_IMAGES.length), 3000);
+    return () => clearInterval(timerRef.current);
   }, []);
+
+  const goNext = () => { setCurrent((s) => (s + 1) % FOOD_IMAGES.length); resetTimer(); };
+  const goPrev = () => { setCurrent((s) => (s - 1 + FOOD_IMAGES.length) % FOOD_IMAGES.length); resetTimer(); };
+
+  // Touch
+  const handleTouchStart = (e) => {
+    dragStartX.current = e.touches[0].clientX;
+    clearInterval(timerRef.current);
+  };
+  const handleTouchEnd = (e) => {
+    if (dragStartX.current === null) return;
+    const diff = dragStartX.current - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) diff > 0 ? goNext() : goPrev();
+    dragStartX.current = null;
+    resetTimer();
+  };
+
+  // Mouse
+  const handleMouseDown = (e) => {
+    isDragging.current = true;
+    dragStartX.current = e.clientX;
+    clearInterval(timerRef.current);
+    e.preventDefault();
+  };
+  const handleMouseUp = (e) => {
+    if (!isDragging.current) return;
+    const diff = dragStartX.current - e.clientX;
+    if (Math.abs(diff) > 40) diff > 0 ? goNext() : goPrev();
+    isDragging.current = false;
+    dragStartX.current = null;
+    resetTimer();
+  };
+  const handleMouseLeave = () => {
+    isDragging.current = false;
+    dragStartX.current = null;
+    resetTimer();
+  };
 
   const sortedMeals = [...FOOD.meals].sort(
     (a, b) => ORDERED_MEALS.indexOf(a.name) - ORDERED_MEALS.indexOf(b.name)
@@ -31,7 +76,6 @@ export default function Food() {
   return (
     <section className="section plain-bg" id="food">
       <div className="container">
-
         <Reveal>
           <Eyebrow centered={false}>Ghar ka khana</Eyebrow>
           <h2>Home-cooked meals, every single day.</h2>
@@ -44,7 +88,14 @@ export default function Food() {
 
           {/* LEFT — image carousel */}
           <Reveal>
-            <div style={{ position: 'relative', overflow: 'hidden', borderRadius: '8px', aspectRatio: '4/3' }}>
+            <div
+              style={{ position: 'relative', overflow: 'hidden', borderRadius: '8px', aspectRatio: '4/3', cursor: 'grab', userSelect: 'none' }}
+              onTouchStart={handleTouchStart}
+              onTouchEnd={handleTouchEnd}
+              onMouseDown={handleMouseDown}
+              onMouseUp={handleMouseUp}
+              onMouseLeave={handleMouseLeave}
+            >
               {FOOD_IMAGES.map((src, i) => (
                 <img
                   key={i}
@@ -58,14 +109,10 @@ export default function Food() {
                     objectFit: 'cover',
                     opacity: i === current ? 1 : 0,
                     transition: 'opacity 0.8s ease',
+                    pointerEvents: 'none',
                   }}
                 />
               ))}
-              <div style={{ position: 'absolute', bottom: '12px', left: '50%', transform: 'translateX(-50%)', display: 'flex', gap: '6px' }}>
-                {FOOD_IMAGES.map((_, i) => (
-                  <div key={i} onClick={() => setCurrent(i)} style={{ width: i === current ? '20px' : '8px', height: '8px', borderRadius: '4px', background: i === current ? 'var(--gold)' : 'rgba(255,255,255,0.6)', cursor: 'pointer', transition: 'all 0.3s' }} />
-                ))}
-              </div>
             </div>
           </Reveal>
 
