@@ -110,7 +110,7 @@ export default function Locations() {
           referrerPolicy="no-referrer-when-downgrade"
           style={{ width: '100%', height: '100%', border: 0, display: 'block', pointerEvents: 'none' }}
         />
-        
+        <a
           href={l.url}
           target="_blank"
           rel="noopener noreferrer"
