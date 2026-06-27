@@ -5,7 +5,6 @@ import Eyebrow from '../ui/Eyebrow.jsx';
 import { AMENITIES } from '../data.js';
 
 const ICON_MAP = { Utensils, Wifi, ShieldCheck, Snowflake, Droplets, Zap, Shirt, Coffee };
-
 const DUPLICATED = [...AMENITIES, ...AMENITIES, ...AMENITIES];
 
 export default function Amenities() {
@@ -15,10 +14,14 @@ export default function Amenities() {
   const rafRef = useRef(null);
   const cardWidthRef = useRef(300);
   const [cardW, setCardW] = useState(300);
+  const isDragging = useRef(false);
+  const dragStartX = useRef(0);
+  const dragStartOffset = useRef(0);
+  const isPaused = useRef(false);
 
   const getCardWidth = () => {
     const vw = window.innerWidth;
-    if (vw < 640) return vw - 48; // one card, full width minus padding
+    if (vw < 640) return vw - 48;
     if (vw < 1024) return 280;
     return 300;
   };
@@ -39,11 +42,13 @@ export default function Amenities() {
     const singleSetWidth = AMENITIES.length * (cardWidthRef.current + gap);
 
     const animate = () => {
-      offsetRef.current += 0.5;
-      if (offsetRef.current >= singleSetWidth) {
-        offsetRef.current -= singleSetWidth;
+      if (!isPaused.current) {
+        offsetRef.current += 0.5;
+        if (offsetRef.current >= singleSetWidth) {
+          offsetRef.current -= singleSetWidth;
+        }
+        setOffset(offsetRef.current);
       }
-      setOffset(offsetRef.current);
       rafRef.current = requestAnimationFrame(animate);
     };
 
@@ -51,6 +56,30 @@ export default function Amenities() {
     rafRef.current = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(rafRef.current);
   }, [cardW]);
+
+  const handleTouchStart = (e) => {
+    isDragging.current = true;
+    isPaused.current = true;
+    dragStartX.current = e.touches[0].clientX;
+    dragStartOffset.current = offsetRef.current;
+  };
+
+  const handleTouchMove = (e) => {
+    if (!isDragging.current) return;
+    const gap = 20;
+    const singleSetWidth = AMENITIES.length * (cardWidthRef.current + gap);
+    const diff = dragStartX.current - e.touches[0].clientX;
+    let newOffset = dragStartOffset.current + diff;
+    if (newOffset < 0) newOffset += singleSetWidth;
+    if (newOffset >= singleSetWidth) newOffset -= singleSetWidth;
+    offsetRef.current = newOffset;
+    setOffset(newOffset);
+  };
+
+  const handleTouchEnd = () => {
+    isDragging.current = false;
+    isPaused.current = false;
+  };
 
   return (
     <section
@@ -63,7 +92,6 @@ export default function Amenities() {
         padding: '40px 0',
       }}
     >
-      {/* Background blobs */}
       <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', zIndex: 0, pointerEvents: 'none' }}>
         {[...Array(6)].map((_, i) => (
           <div key={i} style={{
@@ -99,8 +127,12 @@ export default function Amenities() {
         </div>
       </div>
 
-      {/* Infinite carousel */}
-      <div style={{ overflow: 'hidden', position: 'relative', zIndex: 1 }}>
+      <div
+        style={{ overflow: 'hidden', position: 'relative', zIndex: 1 }}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
         <div
           ref={trackRef}
           style={{
