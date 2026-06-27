@@ -18,6 +18,8 @@ export default function Locations() {
   const [animating, setAnimating] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const timerRef = useRef(null);
+  const dragStartX = useRef(null);
+  const isDragging = useRef(false);
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 640);
@@ -37,10 +39,65 @@ export default function Locations() {
     }, 400);
   };
 
+  const goPrev = () => {
+    if (animating) return;
+    setAnimating(true);
+    setTimeout(() => {
+      setIdx((i) => (i - 1 + total) % total);
+      setAnimating(false);
+    }, 400);
+  };
+
+  const resetTimer = () => {
+    clearInterval(timerRef.current);
+    timerRef.current = setInterval(goNext, 3000);
+  };
+
   useEffect(() => {
     timerRef.current = setInterval(goNext, 3000);
     return () => clearInterval(timerRef.current);
   }, [animating, isMobile]);
+
+  // Touch handlers
+  const handleTouchStart = (e) => {
+    dragStartX.current = e.touches[0].clientX;
+    clearInterval(timerRef.current);
+  };
+
+  const handleTouchEnd = (e) => {
+    if (dragStartX.current === null) return;
+    const diff = dragStartX.current - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) {
+      diff > 0 ? goNext() : goPrev();
+    }
+    dragStartX.current = null;
+    resetTimer();
+  };
+
+  // Mouse handlers
+  const handleMouseDown = (e) => {
+    isDragging.current = true;
+    dragStartX.current = e.clientX;
+    clearInterval(timerRef.current);
+    e.preventDefault();
+  };
+
+  const handleMouseUp = (e) => {
+    if (!isDragging.current) return;
+    const diff = dragStartX.current - e.clientX;
+    if (Math.abs(diff) > 40) {
+      diff > 0 ? goNext() : goPrev();
+    }
+    isDragging.current = false;
+    dragStartX.current = null;
+    resetTimer();
+  };
+
+  const handleMouseLeave = () => {
+    isDragging.current = false;
+    dragStartX.current = null;
+    resetTimer();
+  };
 
   const getPair = () => {
     if (isMobile) return [LOCATIONS[idx]].map((l, i) => ({ l, i: idx }));
@@ -59,7 +116,7 @@ export default function Locations() {
           referrerPolicy="no-referrer-when-downgrade"
           style={{ width: '100%', height: '100%', border: 0, display: 'block', pointerEvents: 'none' }}
         />
-        <a
+        
           href={l.url}
           target="_blank"
           rel="noopener noreferrer"
@@ -106,13 +163,21 @@ export default function Locations() {
         </div>
 
         <Reveal>
-          <div style={{ position: 'relative', overflow: 'hidden' }}>
+          <div
+            style={{ position: 'relative', overflow: 'hidden', cursor: 'grab' }}
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+            onMouseDown={handleMouseDown}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseLeave}
+          >
             <div
               key={idx}
               style={{
                 display: 'flex',
                 gap: '20px',
                 animation: animating ? 'locExit 0.4s ease forwards' : 'locEnter 0.4s ease forwards',
+                userSelect: 'none',
               }}
             >
               {getPair().map(renderCard)}
@@ -120,7 +185,6 @@ export default function Locations() {
           </div>
         </Reveal>
 
-        {/* NEARBY LANDMARKS */}
         <div className="section-head" style={{ marginTop: 80, marginBottom: 16 }}>
           <Reveal>
             <Eyebrow>Everything within reach</Eyebrow>
