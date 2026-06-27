@@ -26,6 +26,15 @@ export default function Amenities() {
     return 300;
   };
 
+  const getSingleSetWidth = () => AMENITIES.length * (cardWidthRef.current + 20);
+
+  const clampOffset = (val) => {
+    const ssw = getSingleSetWidth();
+    if (val < 0) return val + ssw;
+    if (val >= ssw) return val - ssw;
+    return val;
+  };
+
   useEffect(() => {
     const update = () => {
       const w = getCardWidth();
@@ -38,45 +47,51 @@ export default function Amenities() {
   }, []);
 
   useEffect(() => {
-    const gap = 20;
-    const singleSetWidth = AMENITIES.length * (cardWidthRef.current + gap);
-
     const animate = () => {
       if (!isPaused.current) {
-        offsetRef.current += 0.5;
-        if (offsetRef.current >= singleSetWidth) {
-          offsetRef.current -= singleSetWidth;
-        }
+        offsetRef.current = clampOffset(offsetRef.current + 0.5);
         setOffset(offsetRef.current);
       }
       rafRef.current = requestAnimationFrame(animate);
     };
-
     cancelAnimationFrame(rafRef.current);
     rafRef.current = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(rafRef.current);
   }, [cardW]);
 
+  // Touch
   const handleTouchStart = (e) => {
     isDragging.current = true;
     isPaused.current = true;
     dragStartX.current = e.touches[0].clientX;
     dragStartOffset.current = offsetRef.current;
   };
-
   const handleTouchMove = (e) => {
     if (!isDragging.current) return;
-    const gap = 20;
-    const singleSetWidth = AMENITIES.length * (cardWidthRef.current + gap);
     const diff = dragStartX.current - e.touches[0].clientX;
-    let newOffset = dragStartOffset.current + diff;
-    if (newOffset < 0) newOffset += singleSetWidth;
-    if (newOffset >= singleSetWidth) newOffset -= singleSetWidth;
-    offsetRef.current = newOffset;
-    setOffset(newOffset);
+    offsetRef.current = clampOffset(dragStartOffset.current + diff);
+    setOffset(offsetRef.current);
+  };
+  const handleTouchEnd = () => {
+    isDragging.current = false;
+    isPaused.current = false;
   };
 
-  const handleTouchEnd = () => {
+  // Mouse
+  const handleMouseDown = (e) => {
+    isDragging.current = true;
+    isPaused.current = true;
+    dragStartX.current = e.clientX;
+    dragStartOffset.current = offsetRef.current;
+    e.preventDefault();
+  };
+  const handleMouseMove = (e) => {
+    if (!isDragging.current) return;
+    const diff = dragStartX.current - e.clientX;
+    offsetRef.current = clampOffset(dragStartOffset.current + diff);
+    setOffset(offsetRef.current);
+  };
+  const handleMouseUp = () => {
     isDragging.current = false;
     isPaused.current = false;
   };
@@ -113,6 +128,8 @@ export default function Amenities() {
           from { transform: translate(0, 0) scale(1); }
           to { transform: translate(20px, -20px) scale(1.1); }
         }
+        .amenities-track { cursor: grab; user-select: none; }
+        .amenities-track:active { cursor: grabbing; }
       `}</style>
 
       <div className="container" style={{ position: 'relative', zIndex: 1 }}>
@@ -128,10 +145,15 @@ export default function Amenities() {
       </div>
 
       <div
+        className="amenities-track"
         style={{ overflow: 'hidden', position: 'relative', zIndex: 1 }}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseUp}
       >
         <div
           ref={trackRef}
