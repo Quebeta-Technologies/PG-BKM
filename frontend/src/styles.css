@@ -432,9 +432,9 @@ img { display: block; max-width: 100%; }
 @keyframes pulse-ring { 0% { transform: scale(1); opacity: 0.6; } 100% { transform: scale(1.6); opacity: 0; } }
 
 /* ─────── MOBILE STICKY BAR ─────── */
-.mobile-bar { display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 55; background: transparent; border-top: none; padding: 8px 16px; gap: 0; box-shadow: none; }
+.mobile-bar { display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 55; background: transparent; border-top: none; padding: 10px 16px; gap: 0; box-shadow: none; }
 .mobile-bar a { flex: 1; padding: 14px; border-radius: 999px; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600; font-size: 14px; }
-.mobile-bar .m-call { background: var(--navy); color: var(--white); border-radius: 999px; }
+.mobile-bar .m-call { background: var(--gold); color: var(--navy-deep); border-radius: 999px; box-shadow: 0 -4px 16px rgba(0,0,0,0.2); }
 .mobile-bar .m-wa { background: #25D366; color: white; }
 
 /* ═══════════ RESPONSIVE ═══════════ */
