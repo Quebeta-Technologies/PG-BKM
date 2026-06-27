@@ -10,7 +10,7 @@ const WaIcon = ({ size = 26 }) => (
 export default function FloatingActions() {
   return (
     <>
-      <a
+      
         href={CONTACT.whatsapp}
         target="_blank"
         rel="noopener noreferrer"
