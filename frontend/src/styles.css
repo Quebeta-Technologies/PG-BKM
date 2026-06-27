@@ -705,7 +705,7 @@ img { display: block; max-width: 100%; }
   .header-cta .btn-primary { display: none; }
   .header-cta { flex: 1; justify-content: center; gap: 0; }
   .nav-toggle { margin-left: auto; }
-  .mobile-bar { display: none; }
+  .mobile-bar { display: flex; }
   .fab-wa { bottom: 24px; right: 16px; width: 54px; height: 54px; }
   body { padding-bottom: 0; }
   .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 32px 16px; }
