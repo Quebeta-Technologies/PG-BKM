@@ -58,7 +58,6 @@ export default function Locations() {
     return () => clearInterval(timerRef.current);
   }, [animating, isMobile]);
 
-  // Touch handlers
   const handleTouchStart = (e) => {
     dragStartX.current = e.touches[0].clientX;
     clearInterval(timerRef.current);
@@ -67,14 +66,11 @@ export default function Locations() {
   const handleTouchEnd = (e) => {
     if (dragStartX.current === null) return;
     const diff = dragStartX.current - e.changedTouches[0].clientX;
-    if (Math.abs(diff) > 40) {
-      diff > 0 ? goNext() : goPrev();
-    }
+    if (Math.abs(diff) > 40) diff > 0 ? goNext() : goPrev();
     dragStartX.current = null;
     resetTimer();
   };
 
-  // Mouse handlers
   const handleMouseDown = (e) => {
     isDragging.current = true;
     dragStartX.current = e.clientX;
@@ -85,9 +81,7 @@ export default function Locations() {
   const handleMouseUp = (e) => {
     if (!isDragging.current) return;
     const diff = dragStartX.current - e.clientX;
-    if (Math.abs(diff) > 40) {
-      diff > 0 ? goNext() : goPrev();
-    }
+    if (Math.abs(diff) > 40) diff > 0 ? goNext() : goPrev();
     isDragging.current = false;
     dragStartX.current = null;
     resetTimer();
@@ -100,7 +94,7 @@ export default function Locations() {
   };
 
   const getPair = () => {
-    if (isMobile) return [LOCATIONS[idx]].map((l, i) => ({ l, i: idx }));
+    if (isMobile) return [LOCATIONS[idx]].map((l) => ({ l, i: idx }));
     return [LOCATIONS[idx * 2], LOCATIONS[idx * 2 + 1]]
       .filter(Boolean)
       .map((l, i) => ({ l, i: idx * 2 + i }));
@@ -163,14 +157,7 @@ export default function Locations() {
         </div>
 
         <Reveal>
-          <div
-            style={{ position: 'relative', overflow: 'hidden', cursor: 'grab' }}
-            onTouchStart={handleTouchStart}
-            onTouchEnd={handleTouchEnd}
-            onMouseDown={handleMouseDown}
-            onMouseUp={handleMouseUp}
-            onMouseLeave={handleMouseLeave}
-          >
+          <div style={{ position: 'relative', overflow: 'hidden' }}>
             <div
               key={idx}
               style={{
@@ -178,7 +165,13 @@ export default function Locations() {
                 gap: '20px',
                 animation: animating ? 'locExit 0.4s ease forwards' : 'locEnter 0.4s ease forwards',
                 userSelect: 'none',
+                cursor: 'grab',
               }}
+              onTouchStart={handleTouchStart}
+              onTouchEnd={handleTouchEnd}
+              onMouseDown={handleMouseDown}
+              onMouseUp={handleMouseUp}
+              onMouseLeave={handleMouseLeave}
             >
               {getPair().map(renderCard)}
             </div>
