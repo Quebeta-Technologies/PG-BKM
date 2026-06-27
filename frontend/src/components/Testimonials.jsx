@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import { Quote, Star } from 'lucide-react';
+import { Quote, Star, ChevronLeft, ChevronRight } from 'lucide-react';
 import Reveal from '../ui/Reveal.jsx';
 import Eyebrow from '../ui/Eyebrow.jsx';
 import { TESTIMONIALS } from '../data.js';
@@ -10,6 +10,7 @@ export default function Testimonials() {
   const [animating, setAnimating] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const timerRef = useRef(null);
+  const dragStartX = useRef(null);
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 640);
@@ -44,6 +45,19 @@ export default function Testimonials() {
     resetTimer();
   };
 
+  const handleTouchStart = (e) => {
+    dragStartX.current = e.touches[0].clientX;
+    clearInterval(timerRef.current);
+  };
+
+  const handleTouchEnd = (e) => {
+    if (dragStartX.current === null) return;
+    const diff = dragStartX.current - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) goTo(diff > 0 ? 'next' : 'prev');
+    dragStartX.current = null;
+    resetTimer();
+  };
+
   const getCards = () => {
     if (isMobile) return [TESTIMONIALS[idx]];
     return [TESTIMONIALS[idx * 2], TESTIMONIALS[idx * 2 + 1]].filter(Boolean);
@@ -72,6 +86,24 @@ export default function Testimonials() {
     </div>
   );
 
+  const arrowStyle = {
+    position: 'absolute',
+    top: '50%',
+    transform: 'translateY(-50%)',
+    zIndex: 10,
+    width: '44px',
+    height: '44px',
+    borderRadius: '50%',
+    background: 'rgba(255,255,255,0.1)',
+    border: '1px solid rgba(255,255,255,0.2)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    cursor: 'pointer',
+    color: 'white',
+    transition: 'all 0.2s ease',
+  };
+
   return (
     <section className="section testimonials" id="reviews">
       <div className="container">
@@ -86,13 +118,42 @@ export default function Testimonials() {
         </div>
 
         <Reveal>
-          <div className="t-carousel">
+          <div style={{ position: 'relative' }}>
+
+            {/* Arrows — desktop only */}
+            {!isMobile && (
+              <>
+                <button
+                  onClick={() => goTo('prev')}
+                  style={{ ...arrowStyle, left: '-56px' }}
+                  onMouseEnter={e => { e.currentTarget.style.background = 'var(--gold)'; e.currentTarget.style.color = 'var(--navy)'; }}
+                  onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.1)'; e.currentTarget.style.color = 'white'; }}
+                >
+                  <ChevronLeft size={20} />
+                </button>
+                <button
+                  onClick={() => goTo('next')}
+                  style={{ ...arrowStyle, right: '-56px' }}
+                  onMouseEnter={e => { e.currentTarget.style.background = 'var(--gold)'; e.currentTarget.style.color = 'var(--navy)'; }}
+                  onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.1)'; e.currentTarget.style.color = 'white'; }}
+                >
+                  <ChevronRight size={20} />
+                </button>
+              </>
+            )}
+
             <div
-              className={`t-slide-${direction} ${animating ? 't-exit' : 't-enter'}`}
-              key={idx}
-              style={{ display: 'flex', gap: '24px' }}
+              className="t-carousel"
+              onTouchStart={handleTouchStart}
+              onTouchEnd={handleTouchEnd}
             >
-              {getCards().map(renderCard)}
+              <div
+                className={`t-slide-${direction} ${animating ? 't-exit' : 't-enter'}`}
+                key={idx}
+                style={{ display: 'flex', gap: '24px' }}
+              >
+                {getCards().map(renderCard)}
+              </div>
             </div>
           </div>
         </Reveal>
