@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { MapPin, Navigation, Briefcase, ShoppingBag, Coffee, GraduationCap, ShoppingCart, Heart, Car, Train } from 'lucide-react';
+import { MapPin, Navigation, Briefcase, ShoppingBag, Coffee, GraduationCap, ShoppingCart, Heart, Car, Train, ChevronLeft, ChevronRight } from 'lucide-react';
 import Reveal from '../ui/Reveal.jsx';
 import Eyebrow from '../ui/Eyebrow.jsx';
 import { LOCATIONS, LANDMARKS } from '../data.js';
@@ -110,7 +110,7 @@ export default function Locations() {
           referrerPolicy="no-referrer-when-downgrade"
           style={{ width: '100%', height: '100%', border: 0, display: 'block', pointerEvents: 'none' }}
         />
-        <a
+        
           href={l.url}
           target="_blank"
           rel="noopener noreferrer"
@@ -142,6 +142,25 @@ export default function Locations() {
     </div>
   );
 
+  const arrowStyle = {
+    position: 'absolute',
+    top: '50%',
+    transform: 'translateY(-50%)',
+    zIndex: 10,
+    width: '44px',
+    height: '44px',
+    borderRadius: '50%',
+    background: 'var(--white)',
+    border: '1px solid var(--border)',
+    boxShadow: '0 4px 16px rgba(26,45,110,0.12)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    cursor: 'pointer',
+    color: 'var(--navy)',
+    transition: 'all 0.2s ease',
+  };
+
   return (
     <section className="section plain-bg" id="locations">
       <div className="container">
@@ -157,23 +176,48 @@ export default function Locations() {
         </div>
 
         <Reveal>
-          <div style={{ position: 'relative', overflow: 'hidden' }}>
-            <div
-              key={idx}
-              style={{
-                display: 'flex',
-                gap: '20px',
-                animation: animating ? 'locExit 0.4s ease forwards' : 'locEnter 0.4s ease forwards',
-                userSelect: 'none',
-                cursor: 'grab',
-              }}
-              onTouchStart={handleTouchStart}
-              onTouchEnd={handleTouchEnd}
-              onMouseDown={handleMouseDown}
-              onMouseUp={handleMouseUp}
-              onMouseLeave={handleMouseLeave}
-            >
-              {getPair().map(renderCard)}
+          <div style={{ position: 'relative' }}>
+
+            {/* Arrows — desktop only */}
+            {!isMobile && (
+              <>
+                <button
+                  onClick={() => { goPrev(); resetTimer(); }}
+                  style={{ ...arrowStyle, left: '-22px' }}
+                  onMouseEnter={e => { e.currentTarget.style.background = 'var(--navy)'; e.currentTarget.style.color = 'white'; }}
+                  onMouseLeave={e => { e.currentTarget.style.background = 'var(--white)'; e.currentTarget.style.color = 'var(--navy)'; }}
+                >
+                  <ChevronLeft size={20} />
+                </button>
+                <button
+                  onClick={() => { goNext(); resetTimer(); }}
+                  style={{ ...arrowStyle, right: '-22px' }}
+                  onMouseEnter={e => { e.currentTarget.style.background = 'var(--navy)'; e.currentTarget.style.color = 'white'; }}
+                  onMouseLeave={e => { e.currentTarget.style.background = 'var(--white)'; e.currentTarget.style.color = 'var(--navy)'; }}
+                >
+                  <ChevronRight size={20} />
+                </button>
+              </>
+            )}
+
+            <div style={{ overflow: 'hidden' }}>
+              <div
+                key={idx}
+                style={{
+                  display: 'flex',
+                  gap: '20px',
+                  animation: animating ? 'locExit 0.4s ease forwards' : 'locEnter 0.4s ease forwards',
+                  userSelect: 'none',
+                  cursor: isMobile ? 'default' : 'grab',
+                }}
+                onTouchStart={handleTouchStart}
+                onTouchEnd={handleTouchEnd}
+                onMouseDown={!isMobile ? handleMouseDown : undefined}
+                onMouseUp={!isMobile ? handleMouseUp : undefined}
+                onMouseLeave={!isMobile ? handleMouseLeave : undefined}
+              >
+                {getPair().map(renderCard)}
+              </div>
             </div>
           </div>
         </Reveal>
