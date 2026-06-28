@@ -32,11 +32,11 @@ export const CONTACT = {
 // ───── HERO CAROUSEL ─────
 export const HERO_SLIDES = [
   { src: '/images/h1.png', title: 'Slide 1' },
-  { src: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1600&q=80', title: 'Slide 2' },
-  { src: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=1600&q=80', title: 'Slide 3' },
-  { src: 'https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=1600&q=80', title: 'Slide 4' },
-  { src: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1600&q=80', title: 'Slide 5' },
-  { src: 'https://images.unsplash.com/photo-1540518614846-7eded433c457?auto=format&fit=crop&w=1600&q=80', title: 'Slide 6' },
+  { src: '/images/h2.png', title: 'Slide 2' },
+  { src: '/images/h3.png', title: 'Slide 3' },
+  { src: '/images/h4.png', title: 'Slide 4' },
+  { src: '/images/h5.png', title: 'Slide 5' },
+  { src: '/images/h6.png', title: 'Slide 6' },
 ];
 
 // ───── PHOTO GALLERY ─────
