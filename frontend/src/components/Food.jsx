@@ -8,9 +8,9 @@ const ICON_MAP = { Sunrise, Sun, Moon, Utensils };
 
 const FOOD_IMAGES = [
   '/images/f1.png',
-  'https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&w=900&q=80',
-  'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=900&q=80',
-  'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?auto=format&fit=crop&w=900&q=80',
+  '/images/f2.png',
+  '/images/f3.png',
+  '/images/f4.png',
 ];
 
 const ORDERED_MEALS = ['Breakfast', 'Lunch', 'Dinner'];
