@@ -504,10 +504,14 @@ img { display: block; max-width: 100%; }
 
 @media (max-width: 520px) {
   .hero {
-    height: 55vh;
-    min-height: 380px;
+    height: auto;
+    min-height: unset;
+    max-height: unset;
+    aspect-ratio: 3/4;
+    margin-top: 65px;
   }
   .hero-slide img {
+    object-fit: cover;
     object-position: center center;
   }
   .amenities-grid { grid-template-columns: 1fr; }
