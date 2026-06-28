@@ -65,7 +65,8 @@ export default function Footer() {
         </div>
 
         <div className="footer-bottom">
-          <span>© {new Date().getFullYear()} Sri Krishna PG. All rights reserved. &nbsp;|&nbsp; Made With <span style={{ color: 'red' }}>❤️</span> Quebeta</span>
+          <span>© {new Date().getFullYear()} Sri Krishna PG. All rights reserved.</span>
+          <span>Made With <span style={{ color: 'red' }}>❤️</span> Quebeta</span>
         </div>
       </div>
     </footer>
