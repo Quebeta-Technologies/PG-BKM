@@ -1,60 +1,10 @@
-import { useEffect, useState } from 'react';
-import { Phone, Menu, X } from 'lucide-react';
-import { CONTACT } from '../data.js';
-
-export default function Header() {
-  const [scrolled, setScrolled] = useState(false);
-  const [navOpen, setNavOpen] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 30);
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-
-  useEffect(() => {
-    document.body.style.overflow = navOpen ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
-  }, [navOpen]);
-
-  const close = () => setNavOpen(false);
-
-  return (
+return (
     <>
       <header className={`header ${scrolled ? 'scrolled' : ''}`}>
         <div className="container header-inner">
           <a href="#top" className="brand">
             <img src="/images/logo.png" alt="Sri Krishna PG Logo" style={{ height: '68px', width: 'auto' }} />
           </a>
-
-          <nav className={`nav ${navOpen ? 'open' : ''}`}>
-            <div className="nav-drawer-header">
-              <button className="nav-close-btn" onClick={close}><X size={22} /></button>
-            </div>
-            <a href="#top" onClick={close}>Home</a>
-            <a href="#about" onClick={close}>About</a>
-            <a href="#rooms" onClick={close}>Rooms</a>
-            <a href="#amenities" onClick={close}>Amenities</a>
-            <a href="#food" onClick={close}>Food</a>
-            <a href="#how-it-works" onClick={close}>Process</a>
-            <a href="#locations" onClick={close}>Locations</a>
-            <a href="#reviews" onClick={close}>Reviews</a>
-            <a href="#gallery" onClick={close}>Gallery</a>
-            <a href="#faq" onClick={close}>FAQ's</a>
-          </nav>
-
-          {navOpen && (
-            <div
-              onClick={close}
-              style={{
-                position: 'fixed',
-                inset: 0,
-                background: 'rgba(14,31,80,0.4)',
-                zIndex: 48,
-                backdropFilter: 'blur(2px)',
-              }}
-            />
-          )}
 
           <div className="header-cta">
             <a href={CONTACT.whatsapp} target="_blank" rel="noopener noreferrer" className="btn btn-ghost">
@@ -72,7 +22,36 @@ export default function Header() {
             </button>
           </div>
         </div>
+
+        {/* Nav and overlay outside container */}
+        <nav className={`nav ${navOpen ? 'open' : ''}`}>
+          <div className="nav-drawer-header">
+            <button className="nav-close-btn" onClick={close}><X size={22} /></button>
+          </div>
+          <a href="#top" onClick={close}>Home</a>
+          <a href="#about" onClick={close}>About</a>
+          <a href="#rooms" onClick={close}>Rooms</a>
+          <a href="#amenities" onClick={close}>Amenities</a>
+          <a href="#food" onClick={close}>Food</a>
+          <a href="#how-it-works" onClick={close}>Process</a>
+          <a href="#locations" onClick={close}>Locations</a>
+          <a href="#reviews" onClick={close}>Reviews</a>
+          <a href="#gallery" onClick={close}>Gallery</a>
+          <a href="#faq" onClick={close}>FAQ's</a>
+        </nav>
+
+        {navOpen && (
+          <div
+            onClick={close}
+            style={{
+              position: 'fixed',
+              inset: 0,
+              background: 'rgba(14,31,80,0.4)',
+              zIndex: 48,
+              backdropFilter: 'blur(2px)',
+            }}
+          />
+        )}
       </header>
     </>
   );
-}
