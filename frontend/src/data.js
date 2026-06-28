@@ -39,6 +39,15 @@ export const HERO_SLIDES = [
   { src: '/images/h6.png', title: 'Slide 6' },
 ];
 
+export const HERO_SLIDES_MOBILE = [
+  { src: '/images/hm1.png', title: 'Slide 1' },
+  { src: '/images/hm2.png', title: 'Slide 2' },
+  { src: '/images/hm3.png', title: 'Slide 3' },
+  { src: '/images/hm4.png', title: 'Slide 4' },
+  { src: '/images/hm5.png', title: 'Slide 5' },
+  { src: '/images/hm6.png', title: 'Slide 6' },
+];
+
 // ───── PHOTO GALLERY ─────
 export const GALLERY = [
   { src: 'https://images.unsplash.com/photo-1540518614846-7eded433c457?auto=format&fit=crop&w=900&q=80', category: 'rooms', caption: 'Single sharing room — Branch 1' },

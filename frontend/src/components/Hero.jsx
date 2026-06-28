@@ -1,20 +1,30 @@
 import { useCallback, useEffect, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { HERO_SLIDES } from '../data.js';
+import { HERO_SLIDES, HERO_SLIDES_MOBILE } from '../data.js';
 
 export default function Hero() {
   const [slide, setSlide] = useState(0);
   const [paused, setPaused] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 640);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
+
+  const slides = isMobile ? HERO_SLIDES_MOBILE : HERO_SLIDES;
 
   useEffect(() => {
     if (paused) return;
-    const t = setInterval(() => setSlide((s) => (s + 1) % HERO_SLIDES.length), 5500);
+    const t = setInterval(() => setSlide((s) => (s + 1) % slides.length), 5500);
     return () => clearInterval(t);
-  }, [paused]);
+  }, [paused, slides.length]);
 
   const goTo = useCallback(
-    (i) => setSlide(((i % HERO_SLIDES.length) + HERO_SLIDES.length) % HERO_SLIDES.length),
-    []
+    (i) => setSlide(((i % slides.length) + slides.length) % slides.length),
+    [slides.length]
   );
 
   return (
@@ -24,7 +34,7 @@ export default function Hero() {
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
-      {HERO_SLIDES.map((s, i) => (
+      {slides.map((s, i) => (
         <div key={i} className={`hero-slide ${i === slide ? 'active' : ''}`}>
           <img src={s.src} alt={s.title} />
           <div className="hero-overlay" />
@@ -33,7 +43,7 @@ export default function Hero() {
 
       <div className="hero-nav">
         <div className="hero-dots">
-          {HERO_SLIDES.map((_, i) => (
+          {slides.map((_, i) => (
             <button
               key={i}
               className={`hero-dot ${i === slide ? 'active' : ''}`}
