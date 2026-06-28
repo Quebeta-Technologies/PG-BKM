@@ -425,6 +425,11 @@ img { display: block; max-width: 100%; }
 .footer-contact svg { color: var(--gold); flex-shrink: 0; }
 .footer-bottom { border-top: 1px solid var(--border); padding-top: 24px; display: flex; justify-content: space-between; gap: 20px; font-size: 13px; flex-wrap: wrap; }
 
+/* ─────── FOOTER BOTTOM RESPONSIVE ─────── */
+.footer-copy-desktop { display: inline; }
+.footer-copy-mobile { display: none; }
+.footer-made-mobile { display: none; }
+
 /* ─────── FLOATING WHATSAPP ─────── */
 .fab-wa { position: fixed; bottom: 28px; right: 28px; z-index: 60; width: 60px; height: 60px; border-radius: 50%; background: #25D366; color: white; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4); transition: transform 0.25s; }
 .fab-wa:hover { transform: scale(1.08); }
@@ -459,18 +464,8 @@ img { display: block; max-width: 100%; }
     transition: opacity 0.3s ease, transform 0.3s ease;
     z-index: 49;
   }
-  .nav.open {
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: auto;
-  }
-  .nav a {
-    display: block;
-    font-size: 16px;
-    font-weight: 500;
-    color: var(--ink);
-    padding: 4px 0;
-  }
+  .nav.open { opacity: 1; transform: translateY(0); pointer-events: auto; }
+  .nav a { display: block; font-size: 16px; font-weight: 500; color: var(--ink); padding: 4px 0; }
   .nav a::after { display: none; }
   .header-cta .btn-ghost { display: none; }
   .header-cta .btn-primary { display: none; }
@@ -479,6 +474,9 @@ img { display: block; max-width: 100%; }
   .mobile-bar { display: flex; }
   .fab-wa { bottom: 90px; right: 16px; width: 54px; height: 54px; }
   body { padding-bottom: 80px; }
+  .footer-copy-desktop { display: none; }
+  .footer-copy-mobile { display: block; }
+  .footer-made-mobile { display: block; }
   .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 32px 16px; }
   .welcome-grid { grid-template-columns: 1fr; gap: 48px; }
   .welcome-img { aspect-ratio: 4/3; }
@@ -510,10 +508,7 @@ img { display: block; max-width: 100%; }
     aspect-ratio: 3/4;
     margin-top: 65px;
   }
-  .hero-slide img {
-    object-fit: cover;
-    object-position: center center;
-  }
+  .hero-slide img { object-fit: cover; object-position: center center; }
   .amenities-grid { grid-template-columns: 1fr; }
   .steps-grid { grid-template-columns: 1fr; }
   .steps-grid-new { grid-template-columns: 1fr; }
