@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { CheckCircle2, Sunrise, Sun, Moon, Utensils, ChevronDown } from 'lucide-react';
+import { CheckCircle2, Sunrise, Sun, Moon, Utensils, ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react';
 import Reveal from '../ui/Reveal.jsx';
 import Eyebrow from '../ui/Eyebrow.jsx';
 import { FOOD } from '../data.js';
@@ -18,9 +18,17 @@ const ORDERED_MEALS = ['Breakfast', 'Lunch', 'Dinner'];
 export default function Food() {
   const [current, setCurrent] = useState(0);
   const [openMeal, setOpenMeal] = useState(null);
+  const [isMobile, setIsMobile] = useState(false);
   const timerRef = useRef(null);
   const dragStartX = useRef(null);
   const isDragging = useRef(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 960);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
 
   const resetTimer = () => {
     clearInterval(timerRef.current);
@@ -35,7 +43,6 @@ export default function Food() {
   const goNext = () => { setCurrent((s) => (s + 1) % FOOD_IMAGES.length); resetTimer(); };
   const goPrev = () => { setCurrent((s) => (s - 1 + FOOD_IMAGES.length) % FOOD_IMAGES.length); resetTimer(); };
 
-  // Touch
   const handleTouchStart = (e) => {
     dragStartX.current = e.touches[0].clientX;
     clearInterval(timerRef.current);
@@ -48,7 +55,6 @@ export default function Food() {
     resetTimer();
   };
 
-  // Mouse
   const handleMouseDown = (e) => {
     isDragging.current = true;
     dragStartX.current = e.clientX;
@@ -73,6 +79,25 @@ export default function Food() {
     (a, b) => ORDERED_MEALS.indexOf(a.name) - ORDERED_MEALS.indexOf(b.name)
   );
 
+  const arrowStyle = {
+    position: 'absolute',
+    top: '50%',
+    transform: 'translateY(-50%)',
+    zIndex: 10,
+    width: '40px',
+    height: '40px',
+    borderRadius: '50%',
+    background: 'var(--white)',
+    border: '1px solid var(--border)',
+    boxShadow: '0 4px 16px rgba(26,45,110,0.12)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    cursor: 'pointer',
+    color: 'var(--navy)',
+    transition: 'all 0.2s ease',
+  };
+
   return (
     <section className="section plain-bg" id="food">
       <div className="container">
@@ -88,31 +113,54 @@ export default function Food() {
 
           {/* LEFT — image carousel */}
           <Reveal>
-            <div
-              style={{ position: 'relative', overflow: 'hidden', borderRadius: '8px', aspectRatio: '4/3', cursor: 'grab', userSelect: 'none' }}
-              onTouchStart={handleTouchStart}
-              onTouchEnd={handleTouchEnd}
-              onMouseDown={handleMouseDown}
-              onMouseUp={handleMouseUp}
-              onMouseLeave={handleMouseLeave}
-            >
-              {FOOD_IMAGES.map((src, i) => (
-                <img
-                  key={i}
-                  src={src}
-                  alt="Home-cooked meals at Sri Krishna PG"
-                  style={{
-                    position: 'absolute',
-                    inset: 0,
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                    opacity: i === current ? 1 : 0,
-                    transition: 'opacity 0.8s ease',
-                    pointerEvents: 'none',
-                  }}
-                />
-              ))}
+            <div style={{ position: 'relative' }}>
+              <div
+                style={{ position: 'relative', overflow: 'hidden', borderRadius: '8px', aspectRatio: '4/3', cursor: 'grab', userSelect: 'none' }}
+                onTouchStart={handleTouchStart}
+                onTouchEnd={handleTouchEnd}
+                onMouseDown={handleMouseDown}
+                onMouseUp={handleMouseUp}
+                onMouseLeave={handleMouseLeave}
+              >
+                {FOOD_IMAGES.map((src, i) => (
+                  <img
+                    key={i}
+                    src={src}
+                    alt="Home-cooked meals at Sri Krishna PG"
+                    style={{
+                      position: 'absolute',
+                      inset: 0,
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      opacity: i === current ? 1 : 0,
+                      transition: 'opacity 0.8s ease',
+                      pointerEvents: 'none',
+                    }}
+                  />
+                ))}
+              </div>
+
+              {!isMobile && (
+                <>
+                  <button
+                    onClick={goPrev}
+                    style={{ ...arrowStyle, left: '-20px' }}
+                    onMouseEnter={e => { e.currentTarget.style.background = 'var(--navy)'; e.currentTarget.style.color = 'white'; }}
+                    onMouseLeave={e => { e.currentTarget.style.background = 'var(--white)'; e.currentTarget.style.color = 'var(--navy)'; }}
+                  >
+                    <ChevronLeft size={18} />
+                  </button>
+                  <button
+                    onClick={goNext}
+                    style={{ ...arrowStyle, right: '-20px' }}
+                    onMouseEnter={e => { e.currentTarget.style.background = 'var(--navy)'; e.currentTarget.style.color = 'white'; }}
+                    onMouseLeave={e => { e.currentTarget.style.background = 'var(--white)'; e.currentTarget.style.color = 'var(--navy)'; }}
+                  >
+                    <ChevronRight size={18} />
+                  </button>
+                </>
+              )}
             </div>
           </Reveal>
 
