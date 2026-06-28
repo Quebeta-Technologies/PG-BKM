@@ -12,7 +12,6 @@ export default function Header() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Prevent body scroll when nav open
   useEffect(() => {
     document.body.style.overflow = navOpen ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
@@ -30,7 +29,6 @@ export default function Header() {
 
           <nav className={`nav ${navOpen ? 'open' : ''}`}>
             <div className="nav-drawer-header">
-              <span style={{ fontFamily: 'Fraunces, serif', fontWeight: 700, fontSize: '18px', color: 'var(--navy)' }}>Menu</span>
               <button className="nav-close-btn" onClick={close}><X size={22} /></button>
             </div>
             <a href="#top" onClick={close}>Home</a>
@@ -45,7 +43,6 @@ export default function Header() {
             <a href="#faq" onClick={close}>FAQ's</a>
           </nav>
 
-          {/* Overlay */}
           {navOpen && (
             <div
               onClick={close}
