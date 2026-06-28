@@ -9,7 +9,6 @@ export default function Footer() {
           <div>
             <div className="footer-brand">
               <img src="/images/logo.png" alt="Sri Krishna PG Logo" style={{ height: '64px', width: 'auto' }} />
-
             </div>
             <p className="footer-about">
               Premium paying-guest accommodation for boys and girls across four locations in Baner,
@@ -66,8 +65,7 @@ export default function Footer() {
         </div>
 
         <div className="footer-bottom">
-          <span>© {new Date().getFullYear()} Sri Krishna PG. All rights reserved.</span>
-          <span>Made With <span style={{ color: 'red' }}>❤️</span> Quebeta</span>
+          <span>© {new Date().getFullYear()} Sri Krishna PG. All rights reserved. &nbsp;|&nbsp; Made With <span style={{ color: 'red' }}>❤️</span> Quebeta</span>
         </div>
       </div>
     </footer>
