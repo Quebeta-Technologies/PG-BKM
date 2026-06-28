@@ -65,8 +65,13 @@ export default function Footer() {
         </div>
 
         <div className="footer-bottom">
-          <span>© {new Date().getFullYear()} Sri Krishna PG. All rights reserved.</span>
-          <span>Made With <span style={{ color: 'red' }}>❤️</span> Quebeta</span>
+          <span className="footer-copy-desktop">
+            © {new Date().getFullYear()} Sri Krishna PG. All rights reserved. &nbsp;·&nbsp; Made With <span style={{ color: 'red' }}>❤️</span> Quebeta
+          </span>
+          <span className="footer-copy-mobile">
+            © {new Date().getFullYear()} Sri Krishna PG. All rights reserved.
+          </span>
+          <span className="footer-made-mobile">Made With <span style={{ color: 'red' }}>❤️</span> Quebeta</span>
         </div>
       </div>
     </footer>
