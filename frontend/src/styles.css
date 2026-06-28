@@ -441,62 +441,37 @@ img { display: block; max-width: 100%; }
 @media (max-width: 960px) {
   .nav-toggle { display: flex; }
   .nav {
-    position: fixed !important;
-    top: 0 !important;
-    right: 0 !important;
-    bottom: 80px !important;
-    left: auto !important;
-    width: 280px !important;
-    height: auto !important;
-    background: var(--white) !important;
-    padding: 24px !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: stretch !important;
-    gap: 8px !important;
-    box-shadow: -8px 0 32px rgba(26, 45, 110, 0.15) !important;
-    border-left: 1px solid var(--border) !important;
-    transform: translateX(100%) !important;
-    pointer-events: none !important;
-    transition: transform 0.3s ease !important;
-    z-index: 49 !important;
-    overflow-y: auto !important;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 70px;
+    left: 16px;
+    right: 16px;
+    background: var(--white);
+    padding: 24px;
+    border-radius: 12px;
+    gap: 20px;
+    box-shadow: 0 24px 48px rgba(26, 45, 110, 0.15);
+    border: 1px solid var(--border);
+    opacity: 0;
+    transform: translateY(-12px);
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 49;
   }
   .nav.open {
-    transform: translateX(0) !important;
-    pointer-events: auto !important;
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
   }
   .nav a {
     display: block;
     font-size: 16px;
     font-weight: 500;
     color: var(--ink);
-    padding: 12px 8px;
-    border-bottom: 1px solid var(--border);
+    padding: 4px 0;
   }
   .nav a::after { display: none; }
-  .nav a:last-child { border-bottom: none; }
-  .nav-drawer-header {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    margin-bottom: 16px;
-    padding-bottom: 16px;
-    border-bottom: 2px solid var(--gold);
-    flex-shrink: 0;
-  }
-  .nav-close-btn {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: var(--off-white);
-    border: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    color: var(--navy);
-  }
   .header-cta .btn-ghost { display: none; }
   .header-cta .btn-primary { display: none; }
   .header-cta { flex: 1; justify-content: flex-end; gap: 0; }
