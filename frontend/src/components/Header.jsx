@@ -1,4 +1,25 @@
-return (
+import { useEffect, useState } from 'react';
+import { Phone, Menu, X } from 'lucide-react';
+import { CONTACT } from '../data.js';
+
+export default function Header() {
+  const [scrolled, setScrolled] = useState(false);
+  const [navOpen, setNavOpen] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 30);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = navOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [navOpen]);
+
+  const close = () => setNavOpen(false);
+
+  return (
     <>
       <header className={`header ${scrolled ? 'scrolled' : ''}`}>
         <div className="container header-inner">
@@ -23,7 +44,6 @@ return (
           </div>
         </div>
 
-        {/* Nav and overlay outside container */}
         <nav className={`nav ${navOpen ? 'open' : ''}`}>
           <div className="nav-drawer-header">
             <button className="nav-close-btn" onClick={close}><X size={22} /></button>
@@ -55,3 +75,4 @@ return (
       </header>
     </>
   );
+}
